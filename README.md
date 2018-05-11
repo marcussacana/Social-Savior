@@ -51,10 +51,10 @@ The Social Savior was meant to try to be as discreet as possible, it includes a 
 	- Select the program that you add/del of the blacklist and do a rigth click
 
 ### Status:
-![https://ci.appveyor.com/project/marcussacana/socialsavior](https://ci.appveyor.com/api/projects/status/github/marcussacana/SocialSavior?branch=master&retina=true)
+![https://ci.appveyor.com/project/marcussacana/Social-Savior](https://ci.appveyor.com/api/projects/status/github/marcussacana/Social-Savior?branch=master&retina=true)
 
 
-Build: [Download](https://ci.appveyor.com/api/projects/marcussacana/socialsavior/artifacts/MangaUnhost/bin/Social%20Savior.zip)
+Build: [Download](https://ci.appveyor.com/api/projects/marcussacana/social-savior/artifacts/Social%20Savior/bin/Social%20Savior.zip)
 
 -----------
 - Why I created this? Well... I think is obvious... I need says?
