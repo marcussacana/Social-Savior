@@ -8,18 +8,53 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Win32;
+using NAudio.CoreAudioApi;
+using System.Threading.Tasks;
 
 namespace Social_Savior {
     public partial class Main : Form {
+
+        const string Signature = "SSAV";
+        const ushort SettingsVersion = 0;
+
         public bool FirstLaunch = false;
         Settings Settings = new Settings();
 
         KeyboardHook PanicHotkey = new KeyboardHook();
         KeyboardHook RestoreHotkey = new KeyboardHook();
 
+        MMDevice Microphone = null;
+        bool LevelSetup = false;
+        byte NewLevel = 0;
+
         string SettingsPath = AppDomain.CurrentDomain.BaseDirectory + "Savior.dat";
         public Main() {
+            if (File.Exists(SettingsPath)) {
+                try {
+                    using (Stream ReaderStream = new StreamReader(SettingsPath).BaseStream)
+                    using (StructReader Reader = new StructReader(ReaderStream)) {
+                        string Sig = Reader.ReadString(StringStyle.CString);
+                        if (Sig != Signature) {
+                            Reader.Close();
+                            BadSettings();
+                        }
+                        ushort Ver = Reader.ReadUInt16();
+                        if (Ver != SettingsVersion) {
+                            Reader.Close();
+                            BadSettings();
+                        }
+
+                        Reader.BaseStream.Position = 0;
+                        Reader.ReadStruct(ref Settings);
+                        Reader.Close();
+                    }
+                } catch {
+                    BadSettings();
+                }
+            }
+
             InitializeComponent();
+
             if (SingleInstanceService.PipeIsOpen()) {
                 SingleInstanceService.RequestOpen();
                 Environment.Exit(0);
@@ -28,12 +63,6 @@ namespace Social_Savior {
             SingleInstanceService.StartPipe();
 
             if (File.Exists(SettingsPath)) {
-                using (Stream ReaderStream = new StreamReader(SettingsPath).BaseStream)
-                using (StructReader Reader = new StructReader(ReaderStream)) {
-                    Reader.ReadStruct(ref Settings);
-                    Reader.Close();
-                }
-
                 SetReflexByCode(Settings.ReflexAction);
 
                 PanicAltCK.Checked = Settings.Panic.Alt;
@@ -51,6 +80,7 @@ namespace Social_Savior {
                 MuteBlackListCK.Checked = Settings.MuteBlacklist;
                 InvokeScreenSaverCK.Checked = Settings.InvokeScreenSaver;
                 FocusAProgramCK.Checked = Settings.FocusProcess;
+                KillProcIfFailCK.Checked = Settings.KillProcessIfFails;
 
             } else FirstLaunch = true;
 
@@ -75,8 +105,47 @@ namespace Social_Savior {
                 MessageBox.Show("Failed to Register the Hotkey, Please Try a new Restore Hotkey.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+
+            MicroLevel.ColorList = new List<Color> {
+                Color.Lime,
+                Color.Yellow,
+                Color.Red
+            };
+            
+            MainContainer.Text = "Social Savior - v" + AppVeyor.CurrentVersion;
+
+            if (FirstLaunch)
+                HomeMainGB.Text = "Social Savior has not been configured";
+
+            InitializeMicrophone();
             ProcessScanTick(null, null);
             Focus();
+        }
+
+        private void InitializeMicrophone() {
+            MMDeviceCollection Devices = GetMicrophoneDevices();
+            var DevicesName = (from x in Devices select x.DeviceFriendlyName).ToArray();
+            MicroList.Items.AddRange(DevicesName);
+
+            if (!string.IsNullOrEmpty(Settings.RecoderDevice) && DevicesName.Contains(Settings.RecoderDevice)) {
+                MicroList.SelectedItem = Settings.RecoderDevice;
+            }
+
+            MicroList.Items.Add("Disabled");
+        }
+
+        private MMDeviceCollection GetMicrophoneDevices() {
+            MMDeviceEnumerator Enumerator = new MMDeviceEnumerator();
+            return Enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active);
+        }
+
+        private void BadSettings() {
+            if (DialogResult.Yes == MessageBox.Show("The Settings file isn't to this version of the Social Savior,\nYou want reset all settings?\n(If Not the program will exit.)", "Social Savior", MessageBoxButtons.YesNo, MessageBoxIcon.Hand)) {
+                File.Delete(SettingsPath);
+                Application.Restart();
+            } else {
+                Environment.Exit(0);
+            }
         }
 
         private void PanicHotkeyPressed(object sender, KeyPressedEventArgs e) {
@@ -84,16 +153,16 @@ namespace Social_Savior {
                 lblPanicTest.Text = "Panic!";
                 lblPanicTest.BackColor = Color.Red;
             } else {
+
                 //Real Panic - LET'S HIDE THIS SHIT
                 Process[] Targets = GetExecutingBlackList();
                 string[] LOG = new string[0];
                 if (Settings.MuteBlacklist) {
                     foreach (Process Target in Targets) {
-                        try {
-                            Target.MuteProcess(true);
-                        } catch { 
-                            AppendArray(ref LOG, "Failed to mute: " + Target.ProcessName);
-                        }
+                        SafeInvoker(() => Target.MuteProcess(true), () => {
+                            if (Settings.KillProcessIfFails)
+                                Target.Kill();
+                        });
                     }
                 }
 
@@ -102,29 +171,27 @@ namespace Social_Savior {
 
                 if (HideWindowRatio.Checked) {
                     foreach (Process Target in Targets) {
-                        try {
-                            Target.HideMainWindow();
-                        } catch {
-                            AppendArray(ref LOG, "Failed to hide: " + Target.ProcessName);
-                        }
+                        SafeInvoker(Target.HideMainWindow, () => {
+                            if (Settings.KillProcessIfFails)
+                                Target.Kill();
+                        });
                     }
                 }
                 if (KillProcessRadio.Checked) {
                     foreach (Process Target in Targets) {
-                        try {
-                            Target.Kill();
-                        } catch {
-                            AppendArray(ref LOG, "Failed to kill: " + Target.ProcessName);
-                        }
+                        SafeInvoker(Target.Kill);
                     }
                 }
                 if (SuspendProcessRadio.Checked) {
                     foreach (Process Target in Targets) {
-                        try {
+                        SafeInvoker(() => {
                             Target.HideMainWindow();
                             Thread.Sleep(10);
                             Target.SuspendProcess();
-                        } catch { AppendArray(ref LOG, "Failed to suspend: " + Target.ProcessName); }
+                        }, () => {
+                            if (Settings.KillProcessIfFails)
+                                Target.Kill();
+                        });
                     }
                 }
 
@@ -161,24 +228,24 @@ namespace Social_Savior {
 
                 if (Settings.MuteBlacklist) {
                     foreach (Process Target in Targets) {
-                        Target.MuteProcess(false);
+                        SafeInvoker(() => Target.MuteProcess(false));
                     }
                 }
 
                 if (Settings.MuteAll)
-                    AudioController.AudioManager.SetMasterVolumeMute(false);
+                    SafeInvoker(() => AudioController.AudioManager.SetMasterVolumeMute(false));
 
                 if (HideWindowRatio.Checked) {
                     foreach (Process Target in Targets)
-                        Target.ShowMainWindow();
+                        SafeInvoker(Target.ShowMainWindow);
                 }                
                 if (SuspendProcessRadio.Checked) {
                     foreach (Process Target in Targets) {
-                        try {
+                        SafeInvoker(() => {
                             Target.ResumeProcess();
                             Thread.Sleep(10);
                             Target.ShowMainWindow();
-                        } catch { }
+                        });
                     }
                 }
             }
@@ -243,6 +310,7 @@ namespace Social_Savior {
             Settings.MuteAll = MuteComputerCK.Checked;
             Settings.MuteBlacklist = MuteBlackListCK.Checked;
             Settings.InvokeScreenSaver = InvokeScreenSaverCK.Checked;
+            Settings.KillProcessIfFails = KillProcIfFailCK.Checked;
 
             Settings.FocusProcess = FocusAProgramCK.Checked;
             if (Settings.FocusProcess && string.IsNullOrEmpty(Settings.ProcessToFocus)) {
@@ -258,7 +326,7 @@ namespace Social_Savior {
 
         public void UpdatePanicHotKey() {
             PanicHotkey.Dispose();
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             PanicHotkey = new KeyboardHook();
             try {
                 PanicHotkey.RegisterHotKey(GetPanicModifiers(), (Keys)Settings.Panic.KeyCode);
@@ -310,6 +378,9 @@ namespace Social_Savior {
         }
 
         private void SaveSettings() {
+            Settings.Signature = Signature;
+            Settings.Version = SettingsVersion;
+
             Settings.Blacklist = Settings.Blacklist.Distinct().ToArray();
 
             using (Stream WriterStream = new StreamWriter(SettingsPath).BaseStream)
@@ -324,7 +395,7 @@ namespace Social_Savior {
             if (FirstLaunch) {
                 FirstLaunch = false;
 
-                MessageBox.Show("Well... If you click in the 'x' just hide the Social Savior, if you want open it again just open the Social Savior again and type the secret key.\nIf you really want close the social savior click in the 'Close the Social Savior' button in the main window or kill the process.\nI hope this save your file, Social Savior, Created by Marcussacana.", "Welcome to the Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Well... If you click in the 'x' will just hide the Social Savior, if you want open it again just open the Social Savior again and type the secret key.\nIf you really want close the social savior click in the 'Close the Social Savior' button in the main window or kill the process.\nI hope this save your file.\n\nSocial Savior, Created by Marcussacana.", "Welcome to the Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             e.Cancel = true;
@@ -450,8 +521,101 @@ namespace Social_Savior {
 
             Array = Result.ToArray();
         }
+
+        private void MicroWatcherTick(object sender, EventArgs e) {
+            if (string.IsNullOrWhiteSpace((string)MicroList.SelectedItem))
+                return;
+
+            if (Microphone == null) {
+                if (!SelectMicrophone())
+                    return;
+            }
+
+            if (Microphone.State != DeviceState.Active)
+                return;
+
+            if (Settings.WarningSoundLevel == 0 && !LevelSetup) {
+                lblWarningLevel.Text = "Disabled";
+                return;
+            }
+
+            int MicroAtualLevel = (int)Math.Round(Microphone.AudioMeterInformation.MasterPeakValue * 100);
+            if (Visible)
+                MicroLevel.Value = MicroAtualLevel;
+
+            if (LevelSetup) {
+                if (MicroAtualLevel >= NewLevel)
+                    NewLevel = (byte)MicroAtualLevel;
+            } else if (MicroAtualLevel >= Settings.WarningSoundLevel) {
+                PanicHotkeyPressed(null, null);
+            }
+
+            lblAtualLevel.Text = MicroAtualLevel + "%";
+            lblWarningLevel.Text = (LevelSetup ? NewLevel : Settings.WarningSoundLevel) + "%";
+        }
+
+        private bool SelectMicrophone() {
+            var Devices = (from x in GetMicrophoneDevices()
+                           where x.DeviceFriendlyName == Settings.RecoderDevice
+                           select x).ToArray();
+
+            if (Devices.Length == 0) {
+                MicroWatcher.Interval = 500;
+                Microphone = null;
+                return false;
+            }
+
+            MicroWatcher.Interval = 10;
+            Microphone = Devices.First();
+            return true;
+        }
+
+        private void MicroChanged(object sender, EventArgs e) {
+            if (string.IsNullOrWhiteSpace((string)MicroList.SelectedItem))
+                return;
+
+            Settings.RecoderDevice = (string)MicroList.SelectedItem;
+            SelectMicrophone();
+        }
+
+        private void ChangeAudioTrigger(object sender, EventArgs e) {
+            LevelSetup = !LevelSetup;
+            SetupMaxLevelBnt.Text = LevelSetup ? "Apply New Level" : "Change Trigger Level";
+
+            if (LevelSetup) {
+                if (FirstLaunch)
+                    MessageBox.Show("Well... To this Feature put your microphone somewhere near the door for example...\nThen open the door at a normal speed and let the Social Savior mark the noise level, and click \"Apply new level\" to set the noise level as the new threshold.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                NewLevel = 0;
+            } else
+                Settings.WarningSoundLevel = NewLevel;
+        }
+
+        private void SafeInvoker(Action Action, Action Timeouted = null, int Timeout = 300) {
+            var Begin = DateTime.Now;
+            bool Success = false;
+            Task Async = new Task(Action);
+            Async.Start();
+            while ((Begin - DateTime.Now).Milliseconds < Timeout) {
+                if (Async.IsFaulted)
+                    break;
+                if (Async.IsCompleted){
+                    Success = true;
+                    break;
+                }
+                Thread.Sleep(1);
+            }
+
+            if (!Success)
+                try {
+                    Timeouted?.Invoke();
+                } catch { }
+        }
     }
     public struct Settings {
+        [FString(Length = 4)]
+        public string Signature;
+        public ushort Version;
+
         [StructField]
         public Hotkey Panic;
 
@@ -464,11 +628,17 @@ namespace Social_Savior {
         public bool MuteBlacklist;
         public bool InvokeScreenSaver;
         public bool FocusProcess;
+        public bool KillProcessIfFails;
+
         [CString]
         public string ProcessToFocus;
 
         [PArray(PrefixType = Const.UINT32), CString]
         public string[] Blacklist;
+
+        [CString]
+        public string RecoderDevice;
+        public byte WarningSoundLevel;
     }
 
     public struct Hotkey {

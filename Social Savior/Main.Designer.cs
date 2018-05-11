@@ -25,17 +25,18 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            MangaUnhost.ControlRenderer controlRenderer1 = new MangaUnhost.ControlRenderer();
-            MangaUnhost.MSColorTable msColorTable1 = new MangaUnhost.MSColorTable();
-            this.iTalk_ThemeContainer1 = new MangaUnhost.iTalk_ThemeContainer();
+            MangaUnhost.ControlRenderer controlRenderer2 = new MangaUnhost.ControlRenderer();
+            MangaUnhost.MSColorTable msColorTable2 = new MangaUnhost.MSColorTable();
+            this.MainContainer = new MangaUnhost.iTalk_ThemeContainer();
             this.iTalk_ControlBox1 = new MangaUnhost.iTalk_ControlBox();
             this.MainTabControl = new MangaUnhost.iTalk_TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.iTalk_GroupBox2 = new MangaUnhost.iTalk_GroupBox();
+            this.HomeMainGB = new MangaUnhost.iTalk_GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.iTalk_Button_11 = new MangaUnhost.iTalk_Button_1();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.KillProcIfFailCK = new MangaUnhost.iTalk_CheckBox();
             this.FocusAProgramCK = new MangaUnhost.iTalk_CheckBox();
             this.InvokeScreenSaverCK = new MangaUnhost.iTalk_CheckBox();
             this.MuteBlackListCK = new MangaUnhost.iTalk_CheckBox();
@@ -45,14 +46,22 @@
             this.HideWindowRatio = new MangaUnhost.iTalk_RadioButton();
             this.SuspendProcessRadio = new MangaUnhost.iTalk_RadioButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.MicroList = new MangaUnhost.iTalk_ComboBox();
+            this.SetupMaxLevelBnt = new MangaUnhost.iTalk_Button_1();
             this.iTalk_GroupBox1 = new MangaUnhost.iTalk_GroupBox();
             this.lblPanicTest = new MangaUnhost.iTalk_Label();
+            this.lblWarningLevel = new System.Windows.Forms.Label();
             this.iTalk_Label6 = new MangaUnhost.iTalk_Label();
+            this.lblAtualLevel = new System.Windows.Forms.Label();
             this.iTalk_Label7 = new MangaUnhost.iTalk_Label();
+            this.iTalk_Label12 = new MangaUnhost.iTalk_Label();
+            this.iTalk_Label11 = new MangaUnhost.iTalk_Label();
             this.iTalk_Label8 = new MangaUnhost.iTalk_Label();
             this.RestoreShiftCK = new MangaUnhost.iTalk_CheckBox();
+            this.iTalk_Label10 = new MangaUnhost.iTalk_Label();
             this.RestoreAltCK = new MangaUnhost.iTalk_CheckBox();
             this.RestoreCtrlCK = new MangaUnhost.iTalk_CheckBox();
+            this.MicroLevel = new ColorBar();
             this.RestoreTB = new System.Windows.Forms.TextBox();
             this.iTalk_Label9 = new MangaUnhost.iTalk_Label();
             this.iTalk_Label5 = new MangaUnhost.iTalk_Label();
@@ -74,10 +83,11 @@
             this.iTalk_Label1 = new MangaUnhost.iTalk_Label();
             this.iTalk_HeaderLabel1 = new MangaUnhost.iTalk_HeaderLabel();
             this.ProcessScan = new System.Windows.Forms.Timer(this.components);
-            this.iTalk_ThemeContainer1.SuspendLayout();
+            this.MicroWatcher = new System.Windows.Forms.Timer(this.components);
+            this.MainContainer.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.iTalk_GroupBox2.SuspendLayout();
+            this.HomeMainGB.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -87,25 +97,25 @@
             this.BlackListMenu.SuspendLayout();
             this.SuspendLayout();
             // 
-            // iTalk_ThemeContainer1
+            // MainContainer
             // 
-            this.iTalk_ThemeContainer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
-            this.iTalk_ThemeContainer1.Controls.Add(this.iTalk_ControlBox1);
-            this.iTalk_ThemeContainer1.Controls.Add(this.MainTabControl);
-            this.iTalk_ThemeContainer1.Controls.Add(this.iTalk_Label1);
-            this.iTalk_ThemeContainer1.Controls.Add(this.iTalk_HeaderLabel1);
-            this.iTalk_ThemeContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.iTalk_ThemeContainer1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.iTalk_ThemeContainer1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_ThemeContainer1.Location = new System.Drawing.Point(0, 0);
-            this.iTalk_ThemeContainer1.Name = "iTalk_ThemeContainer1";
-            this.iTalk_ThemeContainer1.Padding = new System.Windows.Forms.Padding(3, 28, 3, 28);
-            this.iTalk_ThemeContainer1.Sizable = true;
-            this.iTalk_ThemeContainer1.Size = new System.Drawing.Size(750, 379);
-            this.iTalk_ThemeContainer1.SmartBounds = true;
-            this.iTalk_ThemeContainer1.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.iTalk_ThemeContainer1.TabIndex = 0;
-            this.iTalk_ThemeContainer1.Text = "Welcome";
+            this.MainContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.MainContainer.Controls.Add(this.iTalk_ControlBox1);
+            this.MainContainer.Controls.Add(this.MainTabControl);
+            this.MainContainer.Controls.Add(this.iTalk_Label1);
+            this.MainContainer.Controls.Add(this.iTalk_HeaderLabel1);
+            this.MainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainContainer.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.MainContainer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.MainContainer.Location = new System.Drawing.Point(0, 0);
+            this.MainContainer.Name = "MainContainer";
+            this.MainContainer.Padding = new System.Windows.Forms.Padding(3, 28, 3, 28);
+            this.MainContainer.Sizable = true;
+            this.MainContainer.Size = new System.Drawing.Size(750, 379);
+            this.MainContainer.SmartBounds = true;
+            this.MainContainer.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.MainContainer.TabIndex = 0;
+            this.MainContainer.Text = "Welcome";
             // 
             // iTalk_ControlBox1
             // 
@@ -140,26 +150,26 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
-            this.tabPage1.Controls.Add(this.iTalk_GroupBox2);
+            this.tabPage1.Controls.Add(this.HomeMainGB);
             this.tabPage1.Controls.Add(this.iTalk_Button_11);
             this.tabPage1.Location = new System.Drawing.Point(139, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(601, 253);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Welcome";
+            this.tabPage1.Text = "Home";
             // 
-            // iTalk_GroupBox2
+            // HomeMainGB
             // 
-            this.iTalk_GroupBox2.BackColor = System.Drawing.Color.Transparent;
-            this.iTalk_GroupBox2.Controls.Add(this.label1);
-            this.iTalk_GroupBox2.Location = new System.Drawing.Point(6, 6);
-            this.iTalk_GroupBox2.MinimumSize = new System.Drawing.Size(136, 50);
-            this.iTalk_GroupBox2.Name = "iTalk_GroupBox2";
-            this.iTalk_GroupBox2.Padding = new System.Windows.Forms.Padding(5, 28, 5, 5);
-            this.iTalk_GroupBox2.Size = new System.Drawing.Size(592, 195);
-            this.iTalk_GroupBox2.TabIndex = 1;
-            this.iTalk_GroupBox2.Text = "Social Savior Is Activated";
+            this.HomeMainGB.BackColor = System.Drawing.Color.Transparent;
+            this.HomeMainGB.Controls.Add(this.label1);
+            this.HomeMainGB.Location = new System.Drawing.Point(6, 6);
+            this.HomeMainGB.MinimumSize = new System.Drawing.Size(136, 50);
+            this.HomeMainGB.Name = "HomeMainGB";
+            this.HomeMainGB.Padding = new System.Windows.Forms.Padding(5, 28, 5, 5);
+            this.HomeMainGB.Size = new System.Drawing.Size(592, 195);
+            this.HomeMainGB.TabIndex = 1;
+            this.HomeMainGB.Text = "Social Savior Is Activated";
             // 
             // label1
             // 
@@ -203,6 +213,7 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.KillProcIfFailCK);
             this.groupBox2.Controls.Add(this.FocusAProgramCK);
             this.groupBox2.Controls.Add(this.InvokeScreenSaverCK);
             this.groupBox2.Controls.Add(this.MuteBlackListCK);
@@ -213,6 +224,20 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Extras Reactions";
+            // 
+            // KillProcIfFailCK
+            // 
+            this.KillProcIfFailCK.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.KillProcIfFailCK.BackColor = System.Drawing.Color.Transparent;
+            this.KillProcIfFailCK.Checked = false;
+            this.KillProcIfFailCK.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.KillProcIfFailCK.Location = new System.Drawing.Point(6, 105);
+            this.KillProcIfFailCK.Name = "KillProcIfFailCK";
+            this.KillProcIfFailCK.Size = new System.Drawing.Size(260, 15);
+            this.KillProcIfFailCK.TabIndex = 4;
+            this.KillProcIfFailCK.Text = "Kill Process if Fails";
+            this.KillProcIfFailCK.Click += new System.EventHandler(this.UpdateExtraReactions);
             // 
             // FocusAProgramCK
             // 
@@ -329,13 +354,21 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.tabPage3.Controls.Add(this.MicroList);
+            this.tabPage3.Controls.Add(this.SetupMaxLevelBnt);
             this.tabPage3.Controls.Add(this.iTalk_GroupBox1);
+            this.tabPage3.Controls.Add(this.lblWarningLevel);
             this.tabPage3.Controls.Add(this.iTalk_Label6);
+            this.tabPage3.Controls.Add(this.lblAtualLevel);
             this.tabPage3.Controls.Add(this.iTalk_Label7);
+            this.tabPage3.Controls.Add(this.iTalk_Label12);
+            this.tabPage3.Controls.Add(this.iTalk_Label11);
             this.tabPage3.Controls.Add(this.iTalk_Label8);
             this.tabPage3.Controls.Add(this.RestoreShiftCK);
+            this.tabPage3.Controls.Add(this.iTalk_Label10);
             this.tabPage3.Controls.Add(this.RestoreAltCK);
             this.tabPage3.Controls.Add(this.RestoreCtrlCK);
+            this.tabPage3.Controls.Add(this.MicroLevel);
             this.tabPage3.Controls.Add(this.RestoreTB);
             this.tabPage3.Controls.Add(this.iTalk_Label9);
             this.tabPage3.Controls.Add(this.iTalk_Label5);
@@ -351,6 +384,39 @@
             this.tabPage3.Size = new System.Drawing.Size(601, 253);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Trigger Settings";
+            // 
+            // MicroList
+            // 
+            this.MicroList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.MicroList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.MicroList.DropDownHeight = 100;
+            this.MicroList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.MicroList.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.MicroList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.MicroList.FormattingEnabled = true;
+            this.MicroList.HoverSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(241)))), ((int)(((byte)(241)))));
+            this.MicroList.IntegralHeight = false;
+            this.MicroList.ItemHeight = 20;
+            this.MicroList.Location = new System.Drawing.Point(350, 121);
+            this.MicroList.Name = "MicroList";
+            this.MicroList.Size = new System.Drawing.Size(237, 26);
+            this.MicroList.StartIndex = 0;
+            this.MicroList.TabIndex = 26;
+            this.MicroList.SelectedIndexChanged += new System.EventHandler(this.MicroChanged);
+            // 
+            // SetupMaxLevelBnt
+            // 
+            this.SetupMaxLevelBnt.BackColor = System.Drawing.Color.Transparent;
+            this.SetupMaxLevelBnt.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.SetupMaxLevelBnt.Image = null;
+            this.SetupMaxLevelBnt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.SetupMaxLevelBnt.Location = new System.Drawing.Point(415, 200);
+            this.SetupMaxLevelBnt.Name = "SetupMaxLevelBnt";
+            this.SetupMaxLevelBnt.Size = new System.Drawing.Size(172, 40);
+            this.SetupMaxLevelBnt.TabIndex = 25;
+            this.SetupMaxLevelBnt.Text = "Change Trigger Level";
+            this.SetupMaxLevelBnt.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.SetupMaxLevelBnt.Click += new System.EventHandler(this.ChangeAudioTrigger);
             // 
             // iTalk_GroupBox1
             // 
@@ -378,6 +444,15 @@
             this.lblPanicTest.Text = "Not In Panic";
             this.lblPanicTest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lblWarningLevel
+            // 
+            this.lblWarningLevel.AutoSize = true;
+            this.lblWarningLevel.Location = new System.Drawing.Point(300, 203);
+            this.lblWarningLevel.Name = "lblWarningLevel";
+            this.lblWarningLevel.Size = new System.Drawing.Size(22, 13);
+            this.lblWarningLevel.TabIndex = 24;
+            this.lblWarningLevel.Text = "0%";
+            // 
             // iTalk_Label6
             // 
             this.iTalk_Label6.BackColor = System.Drawing.Color.Transparent;
@@ -389,6 +464,15 @@
             this.iTalk_Label6.TabIndex = 15;
             this.iTalk_Label6.Text = "+";
             // 
+            // lblAtualLevel
+            // 
+            this.lblAtualLevel.AutoSize = true;
+            this.lblAtualLevel.Location = new System.Drawing.Point(300, 184);
+            this.lblAtualLevel.Name = "lblAtualLevel";
+            this.lblAtualLevel.Size = new System.Drawing.Size(22, 13);
+            this.lblAtualLevel.TabIndex = 23;
+            this.lblAtualLevel.Text = "0%";
+            // 
             // iTalk_Label7
             // 
             this.iTalk_Label7.BackColor = System.Drawing.Color.Transparent;
@@ -399,6 +483,30 @@
             this.iTalk_Label7.Size = new System.Drawing.Size(16, 18);
             this.iTalk_Label7.TabIndex = 14;
             this.iTalk_Label7.Text = "+";
+            // 
+            // iTalk_Label12
+            // 
+            this.iTalk_Label12.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Label12.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.iTalk_Label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.iTalk_Label12.Location = new System.Drawing.Point(226, 200);
+            this.iTalk_Label12.Name = "iTalk_Label12";
+            this.iTalk_Label12.Size = new System.Drawing.Size(80, 19);
+            this.iTalk_Label12.TabIndex = 22;
+            this.iTalk_Label12.Text = "Trigger Level: ";
+            this.iTalk_Label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // iTalk_Label11
+            // 
+            this.iTalk_Label11.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Label11.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.iTalk_Label11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.iTalk_Label11.Location = new System.Drawing.Point(226, 181);
+            this.iTalk_Label11.Name = "iTalk_Label11";
+            this.iTalk_Label11.Size = new System.Drawing.Size(80, 19);
+            this.iTalk_Label11.TabIndex = 21;
+            this.iTalk_Label11.Text = "Atual Level: ";
+            this.iTalk_Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // iTalk_Label8
             // 
@@ -423,6 +531,18 @@
             this.RestoreShiftCK.Text = "Shift";
             this.RestoreShiftCK.Click += new System.EventHandler(this.RestoreShiftClicked);
             // 
+            // iTalk_Label10
+            // 
+            this.iTalk_Label10.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Label10.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.iTalk_Label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.iTalk_Label10.Location = new System.Drawing.Point(224, 123);
+            this.iTalk_Label10.Name = "iTalk_Label10";
+            this.iTalk_Label10.Size = new System.Drawing.Size(120, 21);
+            this.iTalk_Label10.TabIndex = 20;
+            this.iTalk_Label10.Text = "Microphone:";
+            this.iTalk_Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // RestoreAltCK
             // 
             this.RestoreAltCK.BackColor = System.Drawing.Color.Transparent;
@@ -446,6 +566,24 @@
             this.RestoreCtrlCK.TabIndex = 10;
             this.RestoreCtrlCK.Text = "Ctrl";
             this.RestoreCtrlCK.Click += new System.EventHandler(this.RestoreCtrlClicked);
+            // 
+            // MicroLevel
+            // 
+            this.MicroLevel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.MicroLevel.ColorList = null;
+            this.MicroLevel.HeightThickness = 0.1F;
+            this.MicroLevel.Location = new System.Drawing.Point(227, 153);
+            this.MicroLevel.Maximum = 100;
+            this.MicroLevel.Minimum = 0;
+            this.MicroLevel.Name = "MicroLevel";
+            this.MicroLevel.Orientation = ColorBar.enumOrientation.Horizontal;
+            this.MicroLevel.Reversed = false;
+            this.MicroLevel.Size = new System.Drawing.Size(360, 25);
+            this.MicroLevel.Smoothness = 7;
+            this.MicroLevel.Style = ColorBar.BarStyle.Flow;
+            this.MicroLevel.TabIndex = 18;
+            this.MicroLevel.Value = 0;
+            this.MicroLevel.WidthThickness = 0.1F;
             // 
             // RestoreTB
             // 
@@ -605,9 +743,9 @@
             this.AddToBlackList,
             this.DelOfTheBlackList});
             this.BlackListMenu.Name = "BlackListMenu";
-            controlRenderer1.ColorTable = msColorTable1;
-            controlRenderer1.RoundedEdges = true;
-            this.BlackListMenu.Renderer = controlRenderer1;
+            controlRenderer2.ColorTable = msColorTable2;
+            controlRenderer2.RoundedEdges = true;
+            this.BlackListMenu.Renderer = controlRenderer2;
             this.BlackListMenu.Size = new System.Drawing.Size(198, 48);
             this.BlackListMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnBlackListMenuOpen);
             // 
@@ -661,12 +799,18 @@
             this.ProcessScan.Interval = 5000;
             this.ProcessScan.Tick += new System.EventHandler(this.ProcessScanTick);
             // 
+            // MicroWatcher
+            // 
+            this.MicroWatcher.Enabled = true;
+            this.MicroWatcher.Interval = 10;
+            this.MicroWatcher.Tick += new System.EventHandler(this.MicroWatcherTick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 379);
-            this.Controls.Add(this.iTalk_ThemeContainer1);
+            this.Controls.Add(this.MainContainer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -674,10 +818,10 @@
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClosing);
-            this.iTalk_ThemeContainer1.ResumeLayout(false);
+            this.MainContainer.ResumeLayout(false);
             this.MainTabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.iTalk_GroupBox2.ResumeLayout(false);
+            this.HomeMainGB.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -692,7 +836,7 @@
 
         #endregion
 
-        private MangaUnhost.iTalk_ThemeContainer iTalk_ThemeContainer1;
+        private MangaUnhost.iTalk_ThemeContainer MainContainer;
         private MangaUnhost.iTalk_HeaderLabel iTalk_HeaderLabel1;
         private MangaUnhost.iTalk_TabControl MainTabControl;
         private System.Windows.Forms.TabPage tabPage1;
@@ -733,11 +877,21 @@
         private System.Windows.Forms.ColumnHeader Blacklist;
         private System.Windows.Forms.ColumnHeader Window;
         private MangaUnhost.iTalk_Button_1 iTalk_Button_11;
-        private MangaUnhost.iTalk_GroupBox iTalk_GroupBox2;
+        private MangaUnhost.iTalk_GroupBox HomeMainGB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer ProcessScan;
         private MangaUnhost.iTalk_ContextMenuStrip BlackListMenu;
         private System.Windows.Forms.ToolStripMenuItem AddToBlackList;
         private System.Windows.Forms.ToolStripMenuItem DelOfTheBlackList;
+        private System.Windows.Forms.Label lblWarningLevel;
+        private System.Windows.Forms.Label lblAtualLevel;
+        private MangaUnhost.iTalk_Label iTalk_Label12;
+        private MangaUnhost.iTalk_Label iTalk_Label11;
+        private MangaUnhost.iTalk_Label iTalk_Label10;
+        private ColorBar MicroLevel;
+        private System.Windows.Forms.Timer MicroWatcher;
+        private MangaUnhost.iTalk_Button_1 SetupMaxLevelBnt;
+        private MangaUnhost.iTalk_ComboBox MicroList;
+        private MangaUnhost.iTalk_CheckBox KillProcIfFailCK;
     }
 }

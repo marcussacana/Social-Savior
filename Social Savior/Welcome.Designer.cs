@@ -50,7 +50,7 @@
             this.ThemeContainer.Padding = new System.Windows.Forms.Padding(3, 28, 3, 28);
             this.ThemeContainer.Sizable = false;
             this.ThemeContainer.Size = new System.Drawing.Size(509, 276);
-            this.ThemeContainer.SmartBounds = false;
+            this.ThemeContainer.SmartBounds = true;
             this.ThemeContainer.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.ThemeContainer.TabIndex = 0;
             this.ThemeContainer.Text = "Welcome";

@@ -41,9 +41,14 @@ The Social Savior was meant to try to be as discreet as possible, it includes a 
 - Focus a Program
 	- Automatically Maximize a custom program
 	- Util for idleness in the work (you lazy)
+- Kill Process If Fails
+	- If Fails to hide any target process, try kill he process
+	- Recomended if you will use the Suspend Reflex Action
 - Tigger Settings
 	- Customize the Panic and Restore Hotkeys
-	- Have sure to test if your hotkey is working!
+		- Have sure to test if your hotkey is working!
+	- Select a Microphone or select the "Disabled" Option
+		- Click at "Change Trigger Level" and read the tutorial message		
 - Panic Blacklist
 	- Select all programs that you want to be hidden here
 	- The program will be searched by the process name

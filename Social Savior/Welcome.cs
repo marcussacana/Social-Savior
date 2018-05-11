@@ -14,6 +14,10 @@ namespace Social_Savior {
             InitialLog = EmailTB.Text;
             InitialPass = PassTB.Text;
 
+            Visible = false;
+            TopMost = false;
+            Visible = true;
+            TopMost = true;
             Focus();
         }
 

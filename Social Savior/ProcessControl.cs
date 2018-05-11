@@ -7,6 +7,7 @@ namespace Social_Savior {
     static class ProcessControl {
 
         static Dictionary<int, IntPtr> HandlerMap = new Dictionary<int, IntPtr>();
+        static Dictionary<int, List<ProcessThread>> ThreadMap = new Dictionary<int, List<ProcessThread>>();
 
         const int SW_HIDE = 0;
         const int SW_SHOWNORMAL = 1;
@@ -76,12 +77,16 @@ namespace Social_Savior {
             if (Process.ProcessName == string.Empty)
                 return;
 
+            ThreadMap[Process.Id] = new List<ProcessThread>();
+
             foreach (ProcessThread pT in Process.Threads) {
                 IntPtr pOpenThread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
 
                 if (pOpenThread == IntPtr.Zero) {
                     continue;
                 }
+
+                ThreadMap[Process.Id].Add(pT);
 
                 SuspendThread(pOpenThread);
 
@@ -93,7 +98,7 @@ namespace Social_Savior {
             if (Process.ProcessName == string.Empty)
                 return;
 
-            foreach (ProcessThread pT in Process.Threads) {
+            foreach (ProcessThread pT in ThreadMap[Process.Id]) {
                 IntPtr pOpenThread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
 
                 if (pOpenThread == IntPtr.Zero) {
