@@ -29,21 +29,24 @@ class AppVeyor {
 
     public string FinishUpdate() {
         if (FinishUpdatePending()) {
-            int Len = MainExecutable.IndexOf("\\AppVeyorUpdate\\") + 1;
+            int Len = MainExecutable.IndexOf("\\AppVeyorUpdate\\");
+
             string OriginalPath = MainExecutable.Substring(0, Len);
-            string RunningDir = Environment.CurrentDirectory;
+            string RunningDir = Path.GetDirectoryName(MainExecutable);
+
             if (!RunningDir.EndsWith("\\"))
                 RunningDir += '\\';
-
+            if (!OriginalPath.EndsWith("\\"))
+                OriginalPath += '\\';
 
             foreach (string File in Directory.GetFiles(RunningDir, "*.*", SearchOption.AllDirectories)) {
-                string Base = File.Substring(RunningDir.Length);
+                string Base = File.Substring(RunningDir.Length).TrimStart('\\');
                 string UpPath = RunningDir + Base;
                 string OlPath = OriginalPath + Base;
                 
 
                 Delete(OlPath);
-                System.IO.File.Copy(UpPath, OlPath);
+                System.IO.File.Copy(UpPath, OlPath, true);
             }
 
             return OriginalPath + Path.GetFileName(MainExecutable);
