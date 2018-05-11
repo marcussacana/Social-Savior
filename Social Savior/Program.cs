@@ -19,6 +19,8 @@ namespace Social_Savior {
 
             if (Execute || System.Diagnostics.Debugger.IsAttached)
                 Application.Run(new Main());
+
+            Environment.Exit(0);
         }
     }
 }

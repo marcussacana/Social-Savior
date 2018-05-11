@@ -43,13 +43,13 @@ class AppVeyor {
             return OriginalPath + "\\" + Path.GetFileName(MainExecutable);
         } else {
             new Thread(() => {
-                while (Directory.Exists(TempUpdateDir)) {
+                int i = 0;
+                while (Directory.Exists(TempUpdateDir) && i < 5) {
                     try {
                         Directory.Delete(TempUpdateDir, true);
-                    } catch { Thread.Sleep(1000); }
+                    } catch { Thread.Sleep(1000); i++; }
                 }
             }).Start();
-
             return null;
         }
     }
@@ -62,11 +62,13 @@ class AppVeyor {
             foreach (var Proc in Procs) {
                 if (Proc.Id == ID)
                     continue;
+
                 try {
                     Proc.Kill();
                     Thread.Sleep(100);
                 } catch { }
             }
+
             try {
                 if (System.IO.File.Exists(File))
                     System.IO.File.Delete(File);
@@ -74,6 +76,7 @@ class AppVeyor {
                 Thread.Sleep(100);
                 continue;
             }
+
             break;
         }
     }
