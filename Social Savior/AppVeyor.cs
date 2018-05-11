@@ -85,9 +85,16 @@ class AppVeyor {
         } catch { return false; }
     }
 
+    public bool FinishUpdatePending() {
+        if (MainExecutable.EndsWith(UpdateSufix)) 
+            return true;
+
+        return false;
+    }
     public void Update() {
         if (!HaveUpdate())
             return;
+
         string Result = FinishUpdate();
         if (Result != null) {
             Process.Start(Result);

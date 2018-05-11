@@ -22,6 +22,9 @@ namespace Social_Savior {
                                         Program.MainFormInstance.Visible = true;
                                     }));
                                     break;
+                                case 1:
+                                    System.Environment.Exit(0);
+                                    break;
                             }
                             Server.Close();
                         }
@@ -33,6 +36,15 @@ namespace Social_Savior {
             }).Start();
         }
 
+        public static void RequestQuit() {
+            try {
+                using (NamedPipeClientStream Client = new NamedPipeClientStream("SocialSavior")) {
+                    Client.Connect();
+                    Client.WriteByte(1);
+                    Client.Close();
+                }
+            } catch { }
+        }
         public static void RequestOpen() {
             using (NamedPipeClientStream Client = new NamedPipeClientStream("SocialSavior")) {
                 Client.Connect();

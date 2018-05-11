@@ -8,6 +8,9 @@ namespace Social_Savior {
             InitializeComponent();
             new Task(() => {
                 AppVeyor Updater = new AppVeyor("Marcussacana", "Social-Savior", "Social Savior\\bin\\Social Savior.zip");
+                if (Updater.FinishUpdatePending()) {
+                    SingleInstanceService.RequestQuit();
+                }
                 string Result = Updater.FinishUpdate();
                 if (Result != null) {
                     System.Diagnostics.Process.Start(Result);
