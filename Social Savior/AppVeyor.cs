@@ -42,11 +42,14 @@ class AppVeyor {
 
             return OriginalPath + "\\" + Path.GetFileName(MainExecutable);
         } else {
-            while (Directory.Exists(TempUpdateDir)) {
-                try {
-                    Directory.Delete(TempUpdateDir, true);
-                } catch { Thread.Sleep(100); }
-            }
+            new Thread(() => {
+                while (Directory.Exists(TempUpdateDir)) {
+                    try {
+                        Directory.Delete(TempUpdateDir, true);
+                    } catch { Thread.Sleep(1000); }
+                }
+            }).Start();
+
             return null;
         }
     }
