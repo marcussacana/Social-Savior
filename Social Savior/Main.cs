@@ -76,6 +76,7 @@ namespace Social_Savior {
             }
 
             ProcessScanTick(null, null);
+            Focus();
         }
 
         private void PanicHotkeyPressed(object sender, KeyPressedEventArgs e) {

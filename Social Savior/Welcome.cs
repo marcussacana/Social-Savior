@@ -13,6 +13,8 @@ namespace Social_Savior {
 
             InitialLog = EmailTB.Text;
             InitialPass = PassTB.Text;
+
+            Focus();
         }
 
         private void OnLoginFocused(object sender, EventArgs e) {
