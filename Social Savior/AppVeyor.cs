@@ -128,8 +128,10 @@ class AppVeyor {
 
         MemoryStream Update = new MemoryStream(Download(API + "artifacts/" +  Artifact.Replace(" ", "%20").Replace("\\", "/")));
         var Zip = ZipFile.Read(Update);
-        if (Directory.Exists(TempUpdateDir))
-            Directory.Delete(TempUpdateDir, true);
+        try {
+            if (Directory.Exists(TempUpdateDir))
+                Directory.Delete(TempUpdateDir, true);
+        } catch { }
 
         Directory.CreateDirectory(TempUpdateDir);
         Zip.ExtractAll(TempUpdateDir, ExtractExistingFileAction.OverwriteSilently);
