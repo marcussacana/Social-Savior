@@ -47,7 +47,8 @@ class AppVeyor {
 
     private void Delete(string File) {
         for (int Tries = 0; Tries < 10; Tries++) {
-            Process[] Procs = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(File));
+            string ProcName = Path.GetFileNameWithoutExtension(File);
+            Process[] Procs = Process.GetProcessesByName(ProcName);
             foreach (var Proc in Procs) {
                 try {
                     Proc.Kill();
