@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,7 +14,7 @@ namespace Social_Savior {
                 }
                 string Result = Updater.FinishUpdate();
                 if (Result != null) {
-                    System.Diagnostics.Process.Start(Result);
+                    Process.Start(Result);
                     Environment.Exit(0);
                 }
 

@@ -37,13 +37,13 @@ namespace Social_Savior {
         }
 
         public static void RequestQuit() {
-            try {
-                using (NamedPipeClientStream Client = new NamedPipeClientStream("SocialSavior")) {
-                    Client.Connect();
-                    Client.WriteByte(1);
-                    Client.Close();
-                }
-            } catch { }
+            Main.SafeInvoker(() => {
+                        using (NamedPipeClientStream Client = new NamedPipeClientStream("SocialSavior")) {
+                            Client.Connect();
+                            Client.WriteByte(1);
+                            Client.Close();
+                        }
+                }, Timeout: 1000);
         }
         public static void RequestOpen() {
             using (NamedPipeClientStream Client = new NamedPipeClientStream("SocialSavior")) {

@@ -590,12 +590,12 @@ namespace Social_Savior {
                 Settings.WarningSoundLevel = NewLevel;
         }
 
-        private void SafeInvoker(Action Action, Action Timeouted = null, int Timeout = 300) {
+        public static void SafeInvoker(Action Action, Action Timeouted = null, int Timeout = 300) {
             var Begin = DateTime.Now;
             bool Success = false;
             Task Async = new Task(Action);
             Async.Start();
-            while ((Begin - DateTime.Now).Milliseconds < Timeout) {
+            while ((DateTime.Now - Begin).TotalMilliseconds < Timeout) {
                 if (Async.IsFaulted)
                     break;
                 if (Async.IsCompleted){

@@ -32,7 +32,7 @@ class AppVeyor {
             int Len = MainExecutable.IndexOf("\\AppVeyorUpdate\\");
             string OriginalPath = MainExecutable.Substring(0, Len);
             foreach (string File in Directory.GetFiles(Environment.CurrentDirectory, "*.*", SearchOption.AllDirectories)) {
-                string Base = File.Substring(Len);
+                string Base = File.Substring(Environment.CurrentDirectory.Length + 1);
                 string UpPath = Environment.CurrentDirectory + "\\" + Base;
                 string OlPath = OriginalPath + "\\" + Base;
 
@@ -42,8 +42,10 @@ class AppVeyor {
 
             return OriginalPath + "\\" + Path.GetFileName(MainExecutable);
         } else {
-            if (Directory.Exists(TempUpdateDir)) {
-                Directory.Delete(TempUpdateDir, true);
+            while (Directory.Exists(TempUpdateDir)) {
+                try {
+                    Directory.Delete(TempUpdateDir, true);
+                } catch { Thread.Sleep(100); }
             }
             return null;
         }
@@ -53,7 +55,10 @@ class AppVeyor {
         for (int Tries = 0; Tries < 10; Tries++) {
             string ProcName = Path.GetFileNameWithoutExtension(File);
             Process[] Procs = Process.GetProcessesByName(ProcName);
+            int ID = Process.GetCurrentProcess().Id;
             foreach (var Proc in Procs) {
+                if (Proc.Id == ID)
+                    continue;
                 try {
                     Proc.Kill();
                     Thread.Sleep(100);
