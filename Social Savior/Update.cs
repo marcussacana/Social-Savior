@@ -7,7 +7,7 @@ namespace Social_Savior {
         public Update() {
             InitializeComponent();
             new Task(() => {
-                AppVeyor Updater = new AppVeyor("Marcussacana", "SocialSavior", "Social Savior\\bin\\Debug\\Social Savior.zip");
+                AppVeyor Updater = new AppVeyor("Marcussacana", "Social-Savior", "Social Savior\\bin\\Debug\\Social Savior.zip");
                 string Result = Updater.FinishUpdate();
                 if (Result != null) {
                     System.Diagnostics.Process.Start(Result);
