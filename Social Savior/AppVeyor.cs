@@ -62,20 +62,20 @@ class AppVeyor {
 
     private void Delete(string File) {
         for (int Tries = 0; Tries < 10; Tries++) {
-            string ProcName = Path.GetFileNameWithoutExtension(MainExecutable);
-            Process[] Procs = Process.GetProcessesByName(ProcName);
-            int ID = Process.GetCurrentProcess().Id;
-            foreach (var Proc in Procs) {
-                if (Proc.Id == ID)
-                    continue;
-
-                try {
-                    Proc.Kill();
-                    Thread.Sleep(100);
-                } catch { }
-            }
-
             try {
+                string ProcName = Path.GetFileNameWithoutExtension(MainExecutable);
+                Process[] Procs = Process.GetProcessesByName(ProcName);
+                int ID = Process.GetCurrentProcess().Id;
+                foreach (var Proc in Procs) {
+                    if (Proc.Id == ID)
+                        continue;
+
+                    try {
+                        Proc.Kill();
+                        Thread.Sleep(100);
+                    } catch { }
+                }
+
                 if (System.IO.File.Exists(File))
                     System.IO.File.Delete(File);
             } catch {

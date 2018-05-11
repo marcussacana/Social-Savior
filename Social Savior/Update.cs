@@ -8,23 +8,27 @@ namespace Social_Savior {
         public Update() {
             InitializeComponent();
             new Task(() => {
-                AppVeyor Updater = new AppVeyor("Marcussacana", "Social-Savior", "Social Savior\\bin\\Social Savior.zip");
-                if (Updater.FinishUpdatePending()) {
-                    SingleInstanceService.RequestQuit();
-                }
-                string Result = Updater.FinishUpdate();
-                if (Result != null) {
-                    Process.Start(Result);
-                    Environment.Exit(0);
-                }
+                try {
+                    AppVeyor Updater = new AppVeyor("Marcussacana", "Social-Savior", "Social Savior\\bin\\Social Savior.zip");
+                    if (Updater.FinishUpdatePending()) {
+                        SingleInstanceService.RequestQuit();
+                    }
 
-                if (Updater.HaveUpdate()) {
-                    Invoke(new MethodInvoker(() => { lblStatus.Text = "Updating..."; }));
-                    Updater.Update();
+                    string Result = Updater.FinishUpdate();
+                    if (Result != null) {
+                        Process.Start(Result);
+                        Environment.Exit(0);
+                    }
+
+                    if (Updater.HaveUpdate()) {
+                        Invoke(new MethodInvoker(() => { lblStatus.Text = "Updating..."; }));
+                        Updater.Update();
+                    }
+
+                    Invoke(new MethodInvoker(Close));
+                } catch (Exception ex) {
+                    MessageBox.Show("Auto Updater Exception: " + ex.Message + "\n" + ex.StackTrace);
                 }
-
-                Invoke(new MethodInvoker(Close));
-
             }).Start();
         }
     }
