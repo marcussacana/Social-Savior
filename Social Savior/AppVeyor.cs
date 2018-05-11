@@ -7,12 +7,12 @@ using System.Threading;
 using Ionic.Zip;
 
 class AppVeyor {
-    const string UpdateSufix = "-NewAppUpdate.exe";
     const string Info = "build";
 
     string API = "https://ci.appveyor.com/api/projects/{0}/{1}/";
     string Artifact = string.Empty;
     public static string MainExecutable = new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+    public static string TempUpdateDir = Path.GetDirectoryName(MainExecutable) + "\\AppVeyorUpdate\\";
     public static string CurrentVersion {
         get {
             var Version = FileVersionInfo.GetVersionInfo(MainExecutable);
@@ -28,19 +28,23 @@ class AppVeyor {
     }
 
     public string FinishUpdate() {
-        if (MainExecutable.EndsWith(UpdateSufix)) {
-            string OriginalPath = MainExecutable.Substring(0, MainExecutable.Length - UpdateSufix.Length);
-            Delete(OriginalPath);
-            File.Copy(MainExecutable, OriginalPath);
-            return OriginalPath;
-        } else {
-            if (File.Exists(MainExecutable + UpdateSufix)) {
-                Delete(MainExecutable + UpdateSufix);
-            }
-            string[] OldFiles = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.bak", SearchOption.AllDirectories);
-            foreach (string file in OldFiles)
-                Delete(file);
+        if (FinishUpdatePending()) {
+            int Len = MainExecutable.IndexOf("\\AppVeyorUpdate\\");
+            string OriginalPath = MainExecutable.Substring(0, Len);
+            foreach (string File in Directory.GetFiles(Environment.CurrentDirectory, "*.*", SearchOption.AllDirectories)) {
+                string Base = File.Substring(Len);
+                string UpPath = Environment.CurrentDirectory + "\\" + Base;
+                string OlPath = OriginalPath + "\\" + Base;
 
+                Delete(OlPath);
+                System.IO.File.Copy(UpPath, OlPath);
+            }
+
+            return OriginalPath + "\\" + Path.GetFileName(MainExecutable);
+        } else {
+            if (Directory.Exists(TempUpdateDir)) {
+                Directory.Delete(TempUpdateDir, true);
+            }
             return null;
         }
     }
@@ -87,7 +91,7 @@ class AppVeyor {
     }
 
     public bool FinishUpdatePending() {
-        if (MainExecutable.EndsWith(UpdateSufix)) 
+        if (MainExecutable.Contains("\\AppVeyorUpdate\\")) 
             return true;
 
         return false;
@@ -104,27 +108,12 @@ class AppVeyor {
 
         MemoryStream Update = new MemoryStream(Download(API + "artifacts/" +  Artifact.Replace(" ", "%20").Replace("\\", "/")));
         var Zip = ZipFile.Read(Update);
-        string TMP = Path.GetTempFileName();
-        if (File.Exists(TMP))
-            File.Delete(TMP);
-        TMP += "\\";
-        if (!Directory.Exists(TMP))
-            Directory.CreateDirectory(TMP);
-        Zip.ExtractAll(TMP, ExtractExistingFileAction.OverwriteSilently);
+        if (Directory.Exists(TempUpdateDir))
+            Directory.Delete(TempUpdateDir, true);
 
-        foreach (string File in Directory.GetFiles(TMP, "*.*", SearchOption.AllDirectories)) {
-            string Base = File.Substring(TMP.Length, File.Length - TMP.Length);
-            string Output = AppDomain.CurrentDomain.BaseDirectory + Base;
-            if (Output == MainExecutable) {
-                Output += UpdateSufix;
-            }
-
-            Backup(Output);
-            System.IO.File.Move(File, Output);
-        }
-        Directory.Delete(TMP);
-
-        Process.Start(MainExecutable + UpdateSufix);
+        Directory.CreateDirectory(TempUpdateDir);
+        Zip.ExtractAll(TempUpdateDir, ExtractExistingFileAction.OverwriteSilently);
+        Process.Start(TempUpdateDir + Path.GetFileName(MainExecutable));
         Environment.Exit(0);
     }
 
