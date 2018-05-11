@@ -25,8 +25,8 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            MangaUnhost.ControlRenderer controlRenderer2 = new MangaUnhost.ControlRenderer();
-            MangaUnhost.MSColorTable msColorTable2 = new MangaUnhost.MSColorTable();
+            MangaUnhost.ControlRenderer controlRenderer1 = new MangaUnhost.ControlRenderer();
+            MangaUnhost.MSColorTable msColorTable1 = new MangaUnhost.MSColorTable();
             this.MainContainer = new MangaUnhost.iTalk_ThemeContainer();
             this.iTalk_ControlBox1 = new MangaUnhost.iTalk_ControlBox();
             this.MainTabControl = new MangaUnhost.iTalk_TabControl();
@@ -536,9 +536,9 @@
             this.iTalk_Label10.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_Label10.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.iTalk_Label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_Label10.Location = new System.Drawing.Point(224, 123);
+            this.iTalk_Label10.Location = new System.Drawing.Point(229, 123);
             this.iTalk_Label10.Name = "iTalk_Label10";
-            this.iTalk_Label10.Size = new System.Drawing.Size(120, 21);
+            this.iTalk_Label10.Size = new System.Drawing.Size(115, 21);
             this.iTalk_Label10.TabIndex = 20;
             this.iTalk_Label10.Text = "Microphone:";
             this.iTalk_Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -743,9 +743,9 @@
             this.AddToBlackList,
             this.DelOfTheBlackList});
             this.BlackListMenu.Name = "BlackListMenu";
-            controlRenderer2.ColorTable = msColorTable2;
-            controlRenderer2.RoundedEdges = true;
-            this.BlackListMenu.Renderer = controlRenderer2;
+            controlRenderer1.ColorTable = msColorTable1;
+            controlRenderer1.RoundedEdges = true;
+            this.BlackListMenu.Renderer = controlRenderer1;
             this.BlackListMenu.Size = new System.Drawing.Size(198, 48);
             this.BlackListMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnBlackListMenuOpen);
             // 

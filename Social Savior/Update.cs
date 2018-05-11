@@ -27,7 +27,9 @@ namespace Social_Savior {
 
                     Invoke(new MethodInvoker(Close));
                 } catch (Exception ex) {
-                    MessageBox.Show("Auto Updater Exception: " + ex.Message + "\n" + ex.StackTrace);
+                    MessageBox.Show("Auto Updater Exception: \n" + ex.Message + "\n\n" + ex.StackTrace);
+
+                    Invoke(new MethodInvoker(Close));
                 }
             }).Start();
         }

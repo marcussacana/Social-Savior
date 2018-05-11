@@ -258,28 +258,28 @@ namespace Social_Savior {
         private void PanicKeyDown(object sender, KeyEventArgs e) {
             e.SuppressKeyPress = true;
 
-            PanicTB.Text = KeyName(e.KeyData);
+            PanicTB.Text = KeyName(e.KeyCode);
             if (PanicTB.Text.Contains(",")) {
                 MessageBox.Show("Invalid Hotkey", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 PanicTB.Text = KeyName((Keys)Settings.Panic.KeyCode);
                 return;
             }
 
-            Settings.Panic.KeyCode = (int)e.KeyData;
+            Settings.Panic.KeyCode = (int)e.KeyCode;
             UpdatePanicHotKey();
         }
 
         private void RestoreKeyDown(object sender, KeyEventArgs e) {
             e.SuppressKeyPress = true;
 
-            RestoreTB.Text = KeyName(e.KeyData);
+            RestoreTB.Text = KeyName(e.KeyCode);
             if (RestoreTB.Text.Contains(",")) {
                 MessageBox.Show("Invalid Hotkey", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 RestoreTB.Text = KeyName((Keys)Settings.Restore.KeyCode);
                 return;
             }
 
-            Settings.Restore.KeyCode = (int)e.KeyData;
+            Settings.Restore.KeyCode = (int)e.KeyCode;
             UpdateRestoreHotKey();
         }
 
