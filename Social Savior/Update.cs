@@ -24,6 +24,7 @@ namespace Social_Savior {
                 }
 
                 Invoke(new MethodInvoker(Close));
+
             }).Start();
         }
     }
