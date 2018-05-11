@@ -24,12 +24,12 @@
         /// </summary>
         private void InitializeComponent() {
             this.ThemeContainer = new MangaUnhost.iTalk_ThemeContainer();
+            this.iTalk_ControlBox1 = new MangaUnhost.iTalk_ControlBox();
             this.iTalk_Label2 = new MangaUnhost.iTalk_Label();
             this.iTalk_Label1 = new MangaUnhost.iTalk_Label();
             this.PassTB = new MangaUnhost.iTalk_TextBox_Big();
             this.EmailTB = new MangaUnhost.iTalk_TextBox_Big();
             this.LoginBNT = new MangaUnhost.iTalk_Button_2();
-            this.iTalk_ControlBox1 = new MangaUnhost.iTalk_ControlBox();
             this.ThemeContainer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +54,16 @@
             this.ThemeContainer.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.ThemeContainer.TabIndex = 0;
             this.ThemeContainer.Text = "Welcome";
+            // 
+            // iTalk_ControlBox1
+            // 
+            this.iTalk_ControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.iTalk_ControlBox1.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_ControlBox1.Location = new System.Drawing.Point(428, -1);
+            this.iTalk_ControlBox1.Name = "iTalk_ControlBox1";
+            this.iTalk_ControlBox1.Size = new System.Drawing.Size(77, 19);
+            this.iTalk_ControlBox1.TabIndex = 5;
+            this.iTalk_ControlBox1.Text = "iTalk_ControlBox1";
             // 
             // iTalk_Label2
             // 
@@ -134,16 +144,6 @@
             this.LoginBNT.TextAlignment = System.Drawing.StringAlignment.Center;
             this.LoginBNT.Click += new System.EventHandler(this.LoginClicked);
             // 
-            // iTalk_ControlBox1
-            // 
-            this.iTalk_ControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.iTalk_ControlBox1.BackColor = System.Drawing.Color.Transparent;
-            this.iTalk_ControlBox1.Location = new System.Drawing.Point(432, 0);
-            this.iTalk_ControlBox1.Name = "iTalk_ControlBox1";
-            this.iTalk_ControlBox1.Size = new System.Drawing.Size(77, 19);
-            this.iTalk_ControlBox1.TabIndex = 5;
-            this.iTalk_ControlBox1.Text = "iTalk_ControlBox1";
-            // 
             // Welcome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,6 +154,7 @@
             this.Name = "Welcome";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Welcome";
+            this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.ThemeContainer.ResumeLayout(false);
             this.ResumeLayout(false);

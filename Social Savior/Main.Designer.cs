@@ -31,6 +31,9 @@
             this.iTalk_ControlBox1 = new MangaUnhost.iTalk_ControlBox();
             this.MainTabControl = new MangaUnhost.iTalk_TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.iTalk_GroupBox2 = new MangaUnhost.iTalk_GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.iTalk_Button_11 = new MangaUnhost.iTalk_Button_1();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.FocusAProgramCK = new MangaUnhost.iTalk_CheckBox();
@@ -65,25 +68,22 @@
             this.Process = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Blacklist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Window = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.iTalk_Label1 = new MangaUnhost.iTalk_Label();
-            this.iTalk_HeaderLabel1 = new MangaUnhost.iTalk_HeaderLabel();
-            this.iTalk_Button_11 = new MangaUnhost.iTalk_Button_1();
-            this.iTalk_GroupBox2 = new MangaUnhost.iTalk_GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.ProcessScan = new System.Windows.Forms.Timer(this.components);
             this.BlackListMenu = new MangaUnhost.iTalk_ContextMenuStrip();
             this.AddToBlackList = new System.Windows.Forms.ToolStripMenuItem();
             this.DelOfTheBlackList = new System.Windows.Forms.ToolStripMenuItem();
+            this.iTalk_Label1 = new MangaUnhost.iTalk_Label();
+            this.iTalk_HeaderLabel1 = new MangaUnhost.iTalk_HeaderLabel();
+            this.ProcessScan = new System.Windows.Forms.Timer(this.components);
             this.iTalk_ThemeContainer1.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.iTalk_GroupBox2.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.iTalk_GroupBox1.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            this.iTalk_GroupBox2.SuspendLayout();
             this.BlackListMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -148,6 +148,43 @@
             this.tabPage1.Size = new System.Drawing.Size(601, 253);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Welcome";
+            // 
+            // iTalk_GroupBox2
+            // 
+            this.iTalk_GroupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_GroupBox2.Controls.Add(this.label1);
+            this.iTalk_GroupBox2.Location = new System.Drawing.Point(6, 6);
+            this.iTalk_GroupBox2.MinimumSize = new System.Drawing.Size(136, 50);
+            this.iTalk_GroupBox2.Name = "iTalk_GroupBox2";
+            this.iTalk_GroupBox2.Padding = new System.Windows.Forms.Padding(5, 28, 5, 5);
+            this.iTalk_GroupBox2.Size = new System.Drawing.Size(592, 195);
+            this.iTalk_GroupBox2.TabIndex = 1;
+            this.iTalk_GroupBox2.Text = "Social Savior Is Activated";
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.label1.Location = new System.Drawing.Point(5, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(582, 162);
+            this.label1.TabIndex = 0;
+            this.label1.Text = resources.GetString("label1.Text");
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // iTalk_Button_11
+            // 
+            this.iTalk_Button_11.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Button_11.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.iTalk_Button_11.Image = null;
+            this.iTalk_Button_11.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iTalk_Button_11.Location = new System.Drawing.Point(6, 207);
+            this.iTalk_Button_11.Name = "iTalk_Button_11";
+            this.iTalk_Button_11.Size = new System.Drawing.Size(589, 40);
+            this.iTalk_Button_11.TabIndex = 0;
+            this.iTalk_Button_11.Text = "Close the Social Savior";
+            this.iTalk_Button_11.TextAlignment = System.Drawing.StringAlignment.Center;
+            this.iTalk_Button_11.Click += new System.EventHandler(this.iTalk_Button_11_Click);
             // 
             // tabPage2
             // 
@@ -562,77 +599,6 @@
             this.Window.Text = "Main Window";
             this.Window.Width = 430;
             // 
-            // iTalk_Label1
-            // 
-            this.iTalk_Label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.iTalk_Label1.BackColor = System.Drawing.Color.Transparent;
-            this.iTalk_Label1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.iTalk_Label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_Label1.Location = new System.Drawing.Point(17, 72);
-            this.iTalk_Label1.Name = "iTalk_Label1";
-            this.iTalk_Label1.Size = new System.Drawing.Size(721, 18);
-            this.iTalk_Label1.TabIndex = 1;
-            this.iTalk_Label1.Text = "The Ultimate Social-Life Savior, If you have one.\r\n";
-            this.iTalk_Label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // iTalk_HeaderLabel1
-            // 
-            this.iTalk_HeaderLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.iTalk_HeaderLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.iTalk_HeaderLabel1.Font = new System.Drawing.Font("Segoe UI", 25F);
-            this.iTalk_HeaderLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.iTalk_HeaderLabel1.Location = new System.Drawing.Point(12, 28);
-            this.iTalk_HeaderLabel1.Name = "iTalk_HeaderLabel1";
-            this.iTalk_HeaderLabel1.Size = new System.Drawing.Size(726, 62);
-            this.iTalk_HeaderLabel1.TabIndex = 0;
-            this.iTalk_HeaderLabel1.Text = "Social Savior";
-            this.iTalk_HeaderLabel1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // iTalk_Button_11
-            // 
-            this.iTalk_Button_11.BackColor = System.Drawing.Color.Transparent;
-            this.iTalk_Button_11.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.iTalk_Button_11.Image = null;
-            this.iTalk_Button_11.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iTalk_Button_11.Location = new System.Drawing.Point(6, 207);
-            this.iTalk_Button_11.Name = "iTalk_Button_11";
-            this.iTalk_Button_11.Size = new System.Drawing.Size(589, 40);
-            this.iTalk_Button_11.TabIndex = 0;
-            this.iTalk_Button_11.Text = "Close the Social Savior";
-            this.iTalk_Button_11.TextAlignment = System.Drawing.StringAlignment.Center;
-            this.iTalk_Button_11.Click += new System.EventHandler(this.iTalk_Button_11_Click);
-            // 
-            // iTalk_GroupBox2
-            // 
-            this.iTalk_GroupBox2.BackColor = System.Drawing.Color.Transparent;
-            this.iTalk_GroupBox2.Controls.Add(this.label1);
-            this.iTalk_GroupBox2.Location = new System.Drawing.Point(6, 6);
-            this.iTalk_GroupBox2.MinimumSize = new System.Drawing.Size(136, 50);
-            this.iTalk_GroupBox2.Name = "iTalk_GroupBox2";
-            this.iTalk_GroupBox2.Padding = new System.Windows.Forms.Padding(5, 28, 5, 5);
-            this.iTalk_GroupBox2.Size = new System.Drawing.Size(592, 195);
-            this.iTalk_GroupBox2.TabIndex = 1;
-            this.iTalk_GroupBox2.Text = "Social Savior Is Activated";
-            // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.label1.Location = new System.Drawing.Point(5, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(582, 162);
-            this.label1.TabIndex = 0;
-            this.label1.Text = resources.GetString("label1.Text");
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ProcessScan
-            // 
-            this.ProcessScan.Enabled = true;
-            this.ProcessScan.Interval = 5000;
-            this.ProcessScan.Tick += new System.EventHandler(this.ProcessScanTick);
-            // 
             // BlackListMenu
             // 
             this.BlackListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -661,6 +627,40 @@
             this.DelOfTheBlackList.Text = "Remove of the Blacklist";
             this.DelOfTheBlackList.Click += new System.EventHandler(this.DelOfTheBlackList_Click);
             // 
+            // iTalk_Label1
+            // 
+            this.iTalk_Label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.iTalk_Label1.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Label1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.iTalk_Label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.iTalk_Label1.Location = new System.Drawing.Point(17, 72);
+            this.iTalk_Label1.Name = "iTalk_Label1";
+            this.iTalk_Label1.Size = new System.Drawing.Size(721, 18);
+            this.iTalk_Label1.TabIndex = 1;
+            this.iTalk_Label1.Text = "The Ultimate Social-Life Savior, If you have one.\r\n";
+            this.iTalk_Label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // iTalk_HeaderLabel1
+            // 
+            this.iTalk_HeaderLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.iTalk_HeaderLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_HeaderLabel1.Font = new System.Drawing.Font("Segoe UI", 25F);
+            this.iTalk_HeaderLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.iTalk_HeaderLabel1.Location = new System.Drawing.Point(12, 28);
+            this.iTalk_HeaderLabel1.Name = "iTalk_HeaderLabel1";
+            this.iTalk_HeaderLabel1.Size = new System.Drawing.Size(726, 62);
+            this.iTalk_HeaderLabel1.TabIndex = 0;
+            this.iTalk_HeaderLabel1.Text = "Social Savior";
+            this.iTalk_HeaderLabel1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // ProcessScan
+            // 
+            this.ProcessScan.Enabled = true;
+            this.ProcessScan.Interval = 5000;
+            this.ProcessScan.Tick += new System.EventHandler(this.ProcessScanTick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -671,11 +671,13 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Welcome";
+            this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClosing);
             this.iTalk_ThemeContainer1.ResumeLayout(false);
             this.MainTabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.iTalk_GroupBox2.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -683,7 +685,6 @@
             this.tabPage3.PerformLayout();
             this.iTalk_GroupBox1.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
-            this.iTalk_GroupBox2.ResumeLayout(false);
             this.BlackListMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
