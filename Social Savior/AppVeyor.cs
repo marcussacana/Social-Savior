@@ -29,18 +29,24 @@ class AppVeyor {
 
     public string FinishUpdate() {
         if (FinishUpdatePending()) {
-            int Len = MainExecutable.IndexOf("\\AppVeyorUpdate\\");
+            int Len = MainExecutable.IndexOf("\\AppVeyorUpdate\\") + 1;
             string OriginalPath = MainExecutable.Substring(0, Len);
-            foreach (string File in Directory.GetFiles(Environment.CurrentDirectory, "*.*", SearchOption.AllDirectories)) {
-                string Base = File.Substring(Environment.CurrentDirectory.Length + 1);
-                string UpPath = Environment.CurrentDirectory + "\\" + Base;
-                string OlPath = OriginalPath + "\\" + Base;
+            string RunningDir = Environment.CurrentDirectory;
+            if (!RunningDir.EndsWith("\\"))
+                RunningDir += '\\';
+
+
+            foreach (string File in Directory.GetFiles(RunningDir, "*.*", SearchOption.AllDirectories)) {
+                string Base = File.Substring(RunningDir.Length);
+                string UpPath = RunningDir + Base;
+                string OlPath = OriginalPath + Base;
+                
 
                 Delete(OlPath);
                 System.IO.File.Copy(UpPath, OlPath);
             }
 
-            return OriginalPath + "\\" + Path.GetFileName(MainExecutable);
+            return OriginalPath + Path.GetFileName(MainExecutable);
         } else {
             new Thread(() => {
                 int i = 0;
@@ -56,7 +62,7 @@ class AppVeyor {
 
     private void Delete(string File) {
         for (int Tries = 0; Tries < 10; Tries++) {
-            string ProcName = Path.GetFileNameWithoutExtension(File);
+            string ProcName = Path.GetFileNameWithoutExtension(MainExecutable);
             Process[] Procs = Process.GetProcessesByName(ProcName);
             int ID = Process.GetCurrentProcess().Id;
             foreach (var Proc in Procs) {
