@@ -193,7 +193,7 @@
             this.iTalk_Button_11.Name = "iTalk_Button_11";
             this.iTalk_Button_11.Size = new System.Drawing.Size(589, 40);
             this.iTalk_Button_11.TabIndex = 0;
-            this.iTalk_Button_11.Text = "Close the Social Savior";
+            this.iTalk_Button_11.Text = "Close Social Savior";
             this.iTalk_Button_11.TextAlignment = System.Drawing.StringAlignment.Center;
             this.iTalk_Button_11.Click += new System.EventHandler(this.iTalk_Button_11_Click);
             // 
@@ -279,7 +279,7 @@
             this.MuteBlackListCK.Name = "MuteBlackListCK";
             this.MuteBlackListCK.Size = new System.Drawing.Size(260, 15);
             this.MuteBlackListCK.TabIndex = 1;
-            this.MuteBlackListCK.Text = "Mute Blacklist Programs";
+            this.MuteBlackListCK.Text = "Mute Blacklisted Programs";
             this.MuteBlackListCK.Click += new System.EventHandler(this.UpdateExtraReactions);
             // 
             // MuteComputerCK
@@ -507,7 +507,7 @@
             this.iTalk_Label11.Name = "iTalk_Label11";
             this.iTalk_Label11.Size = new System.Drawing.Size(80, 19);
             this.iTalk_Label11.TabIndex = 21;
-            this.iTalk_Label11.Text = "Atual Level: ";
+            this.iTalk_Label11.Text = "Current Level: ";
             this.iTalk_Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // iTalk_Label8
@@ -748,14 +748,14 @@
             controlRenderer1.ColorTable = msColorTable1;
             controlRenderer1.RoundedEdges = true;
             this.BlackListMenu.Renderer = controlRenderer1;
-            this.BlackListMenu.Size = new System.Drawing.Size(198, 48);
+            this.BlackListMenu.Size = new System.Drawing.Size(193, 48);
             this.BlackListMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnBlackListMenuOpen);
             // 
             // AddToBlackList
             // 
             this.AddToBlackList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.AddToBlackList.Name = "AddToBlackList";
-            this.AddToBlackList.Size = new System.Drawing.Size(197, 22);
+            this.AddToBlackList.Size = new System.Drawing.Size(192, 22);
             this.AddToBlackList.Text = "Add To Blacklist";
             this.AddToBlackList.Click += new System.EventHandler(this.AddToBlackList_Click);
             // 
@@ -763,8 +763,8 @@
             // 
             this.DelOfTheBlackList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.DelOfTheBlackList.Name = "DelOfTheBlackList";
-            this.DelOfTheBlackList.Size = new System.Drawing.Size(197, 22);
-            this.DelOfTheBlackList.Text = "Remove of the Blacklist";
+            this.DelOfTheBlackList.Size = new System.Drawing.Size(192, 22);
+            this.DelOfTheBlackList.Text = "Remove from Blacklist";
             this.DelOfTheBlackList.Click += new System.EventHandler(this.DelOfTheBlackList_Click);
             // 
             // iTalk_Label1
@@ -812,11 +812,11 @@
             this.StartWithWindowsCK.BackColor = System.Drawing.Color.Transparent;
             this.StartWithWindowsCK.Checked = false;
             this.StartWithWindowsCK.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.StartWithWindowsCK.Location = new System.Drawing.Point(227, 230);
+            this.StartWithWindowsCK.Location = new System.Drawing.Point(229, 230);
             this.StartWithWindowsCK.Name = "StartWithWindowsCK";
-            this.StartWithWindowsCK.Size = new System.Drawing.Size(161, 15);
+            this.StartWithWindowsCK.Size = new System.Drawing.Size(159, 15);
             this.StartWithWindowsCK.TabIndex = 27;
-            this.StartWithWindowsCK.Text = "Start with Windows";
+            this.StartWithWindowsCK.Text = "Start With Windows";
             this.StartWithWindowsCK.Click += new System.EventHandler(this.StartWindowsClicked);
             // 
             // Main
