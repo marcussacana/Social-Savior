@@ -1,7 +1,7 @@
 # Social Savior
 ### A tool that can Save Your Social-Life
 
-This Software is a Universal Panic Button tool, Aiming to prevent others from finding out what you are doing on the computer.
+This Software is a Universal Panic Button tool, Aiming to prevent others from finding out what you are doing on your computer.
 
 Social Savior was designed to be as discreet as possible, so it includes a fake initial window to stop curious people trying to open it.
 
