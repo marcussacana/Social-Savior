@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>Dear User, To be sure that you will not be discovered, 
-Never, but NEVER allow the computer cpu/ram usage up to 80%
-Don't do "intensive" operations in your machine like system defragment
-or antivirus scan while fa- you do what you need to do.
+    <value>Dear user, to make sure you will not be discovered, 
+Never, NEVER allow the computer's CPU/RAM usage go up to 80%.
+Don't do "intensive" operations on your machine, like system defragmentation
+or antivirus scanning while you're fa-- doing what you need to do.
 
-This is to your safety</value>
+This is for your own safety.</value>
   </data>
   <metadata name="BlackListMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>135, 17</value>
