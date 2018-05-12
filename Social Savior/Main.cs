@@ -118,8 +118,13 @@ namespace Social_Savior {
                 HomeMainGB.Text = "Social Savior has not been configured";
 
             InitializeMicrophone();
-            ProcessScanTick(null, null);
-            Focus();
+            ProcessScanTick(null, null);            
+
+            StartWithWindowsCK.Checked = StartupStatus();
+
+            if (Program.Startup) {
+               Shown += (a, b) => Close();
+            } else Focus();
         }
 
         private void InitializeMicrophone() {
@@ -442,12 +447,7 @@ namespace Social_Savior {
             if (DialogResult.Yes == MessageBox.Show("You have sure want exit of the Social Savior?\nThis will disable the Panic Button.", "Social Savior", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk)) {
                 PanicHotkey.Dispose();
                 RestoreHotkey.Dispose();
-
-                try {
-                    Environment.Exit(0);
-                } catch {
-                    System.Diagnostics.Process.GetCurrentProcess().Kill();
-                }
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
         }
 
@@ -609,6 +609,20 @@ namespace Social_Savior {
                 try {
                     Timeouted?.Invoke();
                 } catch { }
+        }
+
+        const string AppName = "Social Savior";
+        private void StartWindowsClicked(object sender, EventArgs e) {
+            RegistryKey Reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            
+            if (StartWithWindowsCK.Checked)
+                Reg.SetValue(AppName, string.Format("\"{0}\" /startup", Application.ExecutablePath));
+            else
+                Reg.DeleteValue(AppName, false);
+        }
+        private bool StartupStatus() {
+            RegistryKey Reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            return Reg.GetValueNames().Contains(AppName);
         }
     }
     public struct Settings {

@@ -84,6 +84,7 @@
             this.iTalk_HeaderLabel1 = new MangaUnhost.iTalk_HeaderLabel();
             this.ProcessScan = new System.Windows.Forms.Timer(this.components);
             this.MicroWatcher = new System.Windows.Forms.Timer(this.components);
+            this.StartWithWindowsCK = new MangaUnhost.iTalk_CheckBox();
             this.MainContainer.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -354,6 +355,7 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.tabPage3.Controls.Add(this.StartWithWindowsCK);
             this.tabPage3.Controls.Add(this.MicroList);
             this.tabPage3.Controls.Add(this.SetupMaxLevelBnt);
             this.tabPage3.Controls.Add(this.iTalk_GroupBox1);
@@ -805,6 +807,18 @@
             this.MicroWatcher.Interval = 10;
             this.MicroWatcher.Tick += new System.EventHandler(this.MicroWatcherTick);
             // 
+            // StartWithWindowsCK
+            // 
+            this.StartWithWindowsCK.BackColor = System.Drawing.Color.Transparent;
+            this.StartWithWindowsCK.Checked = false;
+            this.StartWithWindowsCK.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.StartWithWindowsCK.Location = new System.Drawing.Point(227, 230);
+            this.StartWithWindowsCK.Name = "StartWithWindowsCK";
+            this.StartWithWindowsCK.Size = new System.Drawing.Size(161, 15);
+            this.StartWithWindowsCK.TabIndex = 27;
+            this.StartWithWindowsCK.Text = "Start with Windows";
+            this.StartWithWindowsCK.Click += new System.EventHandler(this.StartWindowsClicked);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -893,5 +907,6 @@
         private MangaUnhost.iTalk_Button_1 SetupMaxLevelBnt;
         private MangaUnhost.iTalk_ComboBox MicroList;
         private MangaUnhost.iTalk_CheckBox KillProcIfFailCK;
+        private MangaUnhost.iTalk_CheckBox StartWithWindowsCK;
     }
 }
