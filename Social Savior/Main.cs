@@ -93,7 +93,7 @@ namespace Social_Savior {
                     PanicHotkey.KeyPressed += PanicHotkeyPressed;
                 }
             } catch {
-                MessageBox.Show("Failed to Register the Hotkey, Please Try a new Panic Hotkey.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to Register hotkey, Please Try a new Panic Hotkey.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             try {
@@ -102,7 +102,7 @@ namespace Social_Savior {
                     RestoreHotkey.KeyPressed += RestoreHotkeyPressed;
                 }
             } catch {
-                MessageBox.Show("Failed to Register the Hotkey, Please Try a new Restore Hotkey.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to Register hotkey, Please Try a new Restore Hotkey.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
@@ -140,7 +140,7 @@ namespace Social_Savior {
         }
 
         private void BadSettings() {
-            if (DialogResult.Yes == MessageBox.Show("The Settings file isn't to this version of the Social Savior,\nYou want reset all settings?\n(If Not the program will exit.)", "Social Savior", MessageBoxButtons.YesNo, MessageBoxIcon.Hand)) {
+            if (DialogResult.Yes == MessageBox.Show("The Settings file is incompatible with this version of Social Savior,\nDo you want reset all settings?\n(If you don't, the program will exit.)", "Social Savior", MessageBoxButtons.YesNo, MessageBoxIcon.Hand)) {
                 File.Delete(SettingsPath);
                 Application.Restart();
             } else {
@@ -395,7 +395,7 @@ namespace Social_Savior {
             if (FirstLaunch) {
                 FirstLaunch = false;
 
-                MessageBox.Show("Well... If you click in the 'x' will just hide the Social Savior, if you want open it again just open the Social Savior again and type the secret key.\nIf you really want close the social savior click in the 'Close the Social Savior' button in the main window or kill the process.\nI hope this save your file.\n\nSocial Savior, Created by Marcussacana.", "Welcome to the Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Well... If you just click the 'x', Social Savior will be hidden. If you want to unhide it, just open Social Savior again and type the secret key.\nIf you want to actually close Social Savior, click the 'Close Social Savior' button in the main window or kill the process.\nI hope this can save your life.\n\nSocial Savior, Created by Marcussacana.", "Welcome to Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             e.Cancel = true;
@@ -439,7 +439,7 @@ namespace Social_Savior {
         private void iTalk_Button_11_Click(object sender, EventArgs e) {
             SaveSettings();
 
-            if (DialogResult.Yes == MessageBox.Show("You have sure want exit of the Social Savior?\nThis will disable the Panic Button.", "Social Savior", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk)) {
+            if (DialogResult.Yes == MessageBox.Show("Are you sure you want to exit Social Savior?\nThis will disable the Panic Button.", "Social Savior", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk)) {
                 PanicHotkey.Dispose();
                 RestoreHotkey.Dispose();
 
@@ -584,7 +584,7 @@ namespace Social_Savior {
 
             if (LevelSetup) {
                 if (FirstLaunch)
-                    MessageBox.Show("Well... To this Feature put your microphone somewhere near the door for example...\nThen open the door at a normal speed and let the Social Savior mark the noise level, and click \"Apply new level\" to set the noise level as the new threshold.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Well... For this feature, put your microphone somewhere near the door, for example...\nThen open the door at a normal speed and let Social Savior mark the noise level, and click \"Apply new level\" to set the noise level as the new threshold.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 NewLevel = 0;
             } else
                 Settings.WarningSoundLevel = NewLevel;
