@@ -192,7 +192,7 @@
             this.iTalk_Button_11.Name = "iTalk_Button_11";
             this.iTalk_Button_11.Size = new System.Drawing.Size(589, 40);
             this.iTalk_Button_11.TabIndex = 0;
-            this.iTalk_Button_11.Text = "Close the Social Savior";
+            this.iTalk_Button_11.Text = "Close Social Savior";
             this.iTalk_Button_11.TextAlignment = System.Drawing.StringAlignment.Center;
             this.iTalk_Button_11.Click += new System.EventHandler(this.iTalk_Button_11_Click);
             // 
@@ -278,7 +278,7 @@
             this.MuteBlackListCK.Name = "MuteBlackListCK";
             this.MuteBlackListCK.Size = new System.Drawing.Size(260, 15);
             this.MuteBlackListCK.TabIndex = 1;
-            this.MuteBlackListCK.Text = "Mute Blacklist Programs";
+            this.MuteBlackListCK.Text = "Mute Blacklisted Programs";
             this.MuteBlackListCK.Click += new System.EventHandler(this.UpdateExtraReactions);
             // 
             // MuteComputerCK
@@ -505,7 +505,7 @@
             this.iTalk_Label11.Name = "iTalk_Label11";
             this.iTalk_Label11.Size = new System.Drawing.Size(80, 19);
             this.iTalk_Label11.TabIndex = 21;
-            this.iTalk_Label11.Text = "Atual Level: ";
+            this.iTalk_Label11.Text = "Current Level: ";
             this.iTalk_Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // iTalk_Label8
@@ -762,7 +762,7 @@
             this.DelOfTheBlackList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.DelOfTheBlackList.Name = "DelOfTheBlackList";
             this.DelOfTheBlackList.Size = new System.Drawing.Size(197, 22);
-            this.DelOfTheBlackList.Text = "Remove of the Blacklist";
+            this.DelOfTheBlackList.Text = "Remove from Blacklist";
             this.DelOfTheBlackList.Click += new System.EventHandler(this.DelOfTheBlackList_Click);
             // 
             // iTalk_Label1
