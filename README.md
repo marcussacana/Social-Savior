@@ -3,7 +3,7 @@
 
 This Software is a Universal Panic Button tool, Aiming to prevent others from finding out what you are doing on your computer.
 
-Social Savior was designed to be as discreet as possible, so it includes a fake initial window to stop curious people trying to open it.
+Social Savior was designed to be as discrete as possible, so it includes a fake initial window to stop curious people from trying to mess around with it.
 
 #### Created By Marcussacana
 
@@ -18,31 +18,31 @@ Social Savior was designed to be as discreet as possible, so it includes a fake 
 - Include your targets to get hidden (Panic Blacklist tab)
 - Setup the Panic Button reaction (Panic Settings tab)
 - Close the Window
-#### Note: The Panic button only works after you close the Social Savior window!
+#### Note: The Panic button will only work after the Social Savior window is closed!
 
 ## Features:
 - Reflex Actions
 	- Hide Window
-		- Hide the window from the taskbar but the process continues running
+		- Hide the window from the taskbar but keeps the process running
 		- Most Stable Reaction
 	- Kill Process
-		- As the name says, Kill all processes in the blacklist
-		- If your program has higher permissions than the Social Savior, this action can fail
+		- As the name says, it will Kill all the processes in the blacklist
+		- If the program has higher permissions than the Social Savior, this action can fail
 	- Suspend Process
 		- Completely freeze the program/game and hide your window
 		- Can fail if the target program has protection, such as DRM's
 - Mute Computer
 	- Mute your Windows
 - Mute Blacklist Programs
-	- Mute only Programs in the blacklist
-	- Useful if you need use the Hide Window reflex action
+	- Mute only the Programs that are in the blacklist
+	- Useful if you need to use the Hide Window reflex action
 - Invoke Screen Saver
-	- Invoke your screensaver (if have one)
+	- Invoke your screensaver (if you have one)
 - Focus a Program
-	- Automatically Maximize a desired program
+	- Automatically Maximizes a program defined by the user
 	- Useful for slacking at work (you lazy)
-- Kill Process If Fails
-	- If Fails to hide any target process, try kill he process
+- Kill the Process If it Fails
+	- At failing to hide any target process, tries to kill the process
 	- Recommended if you use the Suspend Reflex Action
 - Trigger Settings
 	- Customize the Panic and Restore Hotkeys
