@@ -61,6 +61,11 @@ Social Savior was designed to be as discrete as possible, so it includes a fake 
 
 Build: [Download](https://ci.appveyor.com/api/projects/marcussacana/social-savior/artifacts/Social%20Savior/bin/Social%20Savior.zip)
 
+
+### Social Savior in Action (Video)
+[![Click To Play](https://a.doko.moe/hcadch.png)](https://www.youtube.com/watch?v=QqrJ5VRHMSk "Click to Play")
+
+
 -----------
 - Why did I create this? Well... I think it's obvious... Do I really need to say it?
 - Yes, you do.
