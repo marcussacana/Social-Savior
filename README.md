@@ -65,6 +65,8 @@ Build: [Download](https://ci.appveyor.com/api/projects/marcussacana/social-savio
 ### Social Savior in Action (Video)
 [![Click To Play](https://a.doko.moe/hcadch.png)](https://www.youtube.com/watch?v=QqrJ5VRHMSk "Click to Play")
 
+### Social Savior in Action (Microphone Test)
+![Main Social Savior Window](https://a.doko.moe/criwis.gif)
 
 -----------
 - Why did I create this? Well... I think it's obvious... Do I really need to say it?
