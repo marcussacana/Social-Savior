@@ -153,107 +153,123 @@ namespace Social_Savior {
             }
         }
 
+        static bool PanicRunning = false;
+        static bool RestoreRunning = false;
         private void PanicHotkeyPressed(object sender, KeyPressedEventArgs e) {
-            if (Visible) {
-                lblPanicTest.Text = "Panic!";
-                lblPanicTest.BackColor = Color.Red;
-            } else {
+            if (PanicRunning)
+                return;
+            PanicRunning = true;
+            try {
+                if (Visible) {
+                    lblPanicTest.Text = "Panic!";
+                    lblPanicTest.BackColor = Color.Red;
+                } else {
 
-                //Real Panic - LET'S HIDE THIS SHIT
-                Process[] Targets = GetExecutingBlackList();
-                string[] LOG = new string[0];
-                if (Settings.MuteBlacklist) {
-                    foreach (Process Target in Targets) {
-                        SafeInvoker(() => Target.MuteProcess(true), () => {
-                            if (Settings.KillProcessIfFails)
-                                Target.Kill();
-                        });
-                    }
-                }
-
-                if (Settings.MuteAll)
-                    AudioController.AudioManager.SetMasterVolumeMute(true);
-
-                if (HideWindowRatio.Checked) {
-                    foreach (Process Target in Targets) {
-                        SafeInvoker(Target.HideMainWindow, () => {
-                            if (Settings.KillProcessIfFails)
-                                Target.Kill();
-                        });
-                    }
-                }
-                if (KillProcessRadio.Checked) {
-                    foreach (Process Target in Targets) {
-                        SafeInvoker(Target.Kill);
-                    }
-                }
-                if (SuspendProcessRadio.Checked) {
-                    foreach (Process Target in Targets) {
-                        SafeInvoker(() => {
-                            Target.HideMainWindow();
-                            Thread.Sleep(10);
-                            Target.SuspendProcess();
-                        }, () => {
-                            if (Settings.KillProcessIfFails)
-                                Target.Kill();
-                        });
-                    }
-                }
-
-                if (Settings.InvokeScreenSaver) {
-                    RegistryKey screenSaverKey = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop");
-                    if (screenSaverKey != null) {
-                        string screenSaverFilePath = screenSaverKey.GetValue("SCRNSAVE.EXE", string.Empty).ToString();
-                        if (!string.IsNullOrEmpty(screenSaverFilePath) && File.Exists(screenSaverFilePath)) {
-                            Process screenSaverProcess = System.Diagnostics.Process.Start(new ProcessStartInfo(screenSaverFilePath, "/s"));  // "/s" for full-screen mode
+                    //Real Panic - LET'S HIDE THIS SHIT
+                    Process[] Targets = GetExecutingBlackList();
+                    string[] LOG = new string[0];
+                    if (Settings.MuteBlacklist) {
+                        foreach (Process Target in Targets) {
+                            SafeInvoker(() => Target.MuteProcess(true), () => {
+                                if (Settings.KillProcessIfFails)
+                                    Target.Kill();
+                            });
                         }
                     }
-                }
 
-                if (Settings.FocusProcess) {
-                    var Processes = System.Diagnostics.Process.GetProcessesByName(Settings.ProcessToFocus);
-                    if (Processes.Length > 0) {
-                        foreach (Process Process in Processes) {
-                            if (Process.MainWindowHandle != IntPtr.Zero) {
-                                Process.FocusMainWindow();
-                                break;
+                    if (Settings.MuteAll)
+                        AudioController.AudioManager.SetMasterVolumeMute(true);
+
+                    if (HideWindowRatio.Checked) {
+                        foreach (Process Target in Targets) {
+                            SafeInvoker(Target.HideWindow, () => {
+                                if (Settings.KillProcessIfFails)
+                                    Target.Kill();
+                            });
+                        }
+                    }
+                    if (KillProcessRadio.Checked) {
+                        foreach (Process Target in Targets) {
+                            SafeInvoker(Target.Kill);
+                        }
+                    }
+                    if (SuspendProcessRadio.Checked) {
+                        foreach (Process Target in Targets) {
+                            SafeInvoker(() => {
+                                Target.HideWindow();
+                                Target.SuspendProcess();
+                            }, () => {
+                                if (Settings.KillProcessIfFails)
+                                    Target.Kill();
+                            });
+                        }
+                    }
+
+                    if (Settings.InvokeScreenSaver) {
+                        RegistryKey screenSaverKey = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop");
+                        if (screenSaverKey != null) {
+                            string screenSaverFilePath = screenSaverKey.GetValue("SCRNSAVE.EXE", string.Empty).ToString();
+                            if (!string.IsNullOrEmpty(screenSaverFilePath) && File.Exists(screenSaverFilePath)) {
+                                Process screenSaverProcess = System.Diagnostics.Process.Start(new ProcessStartInfo(screenSaverFilePath, "/s"));  // "/s" for full-screen mode
+                            }
+                        }
+                    }
+
+                    if (Settings.FocusProcess) {
+                        var Processes = System.Diagnostics.Process.GetProcessesByName(Settings.ProcessToFocus);
+                        if (Processes.Length > 0) {
+                            foreach (Process Process in Processes) {
+                                if (Process.MainWindowHandle != IntPtr.Zero) {
+                                    Process.FocusMainWindow();
+                                    break;
+                                }
                             }
                         }
                     }
                 }
+            } catch (Exception ex) {
+                Program.Log(ex.Message + "\n" + ex.StackTrace + "\n" + ex.Source);
             }
+            PanicRunning = false;
         }
         private void RestoreHotkeyPressed(object sender, KeyPressedEventArgs e) {
-            if (Visible) {
-                lblPanicTest.Text = "Not in Panic";
-                lblPanicTest.BackColor = Color.Lime;
-            } else {
-                //Real Restore
-                Process[] Targets = GetExecutingBlackList();
+            if (RestoreRunning)
+                return;
+            RestoreRunning = true;
+            try {
+                if (Visible) {
+                    lblPanicTest.Text = "Not in Panic";
+                    lblPanicTest.BackColor = Color.Lime;
+                } else {
+                    //Real Restore
+                    Process[] Targets = GetExecutingBlackList();
 
-                if (Settings.MuteBlacklist) {
-                    foreach (Process Target in Targets) {
-                        SafeInvoker(() => Target.MuteProcess(false));
+                    if (Settings.MuteBlacklist) {
+                        foreach (Process Target in Targets) {
+                            SafeInvoker(() => Target.MuteProcess(false));
+                        }
+                    }
+
+                    if (Settings.MuteAll)
+                        SafeInvoker(() => AudioController.AudioManager.SetMasterVolumeMute(false));
+
+                    if (HideWindowRatio.Checked) {
+                        foreach (Process Target in Targets)
+                            SafeInvoker(Target.ShowWindow);
+                    }
+                    if (SuspendProcessRadio.Checked) {
+                        foreach (Process Target in Targets) {
+                            SafeInvoker(() => {
+                                Target.ResumeProcess();
+                                Target.ShowWindow();
+                            });
+                        }
                     }
                 }
-
-                if (Settings.MuteAll)
-                    SafeInvoker(() => AudioController.AudioManager.SetMasterVolumeMute(false));
-
-                if (HideWindowRatio.Checked) {
-                    foreach (Process Target in Targets)
-                        SafeInvoker(Target.ShowMainWindow);
-                }                
-                if (SuspendProcessRadio.Checked) {
-                    foreach (Process Target in Targets) {
-                        SafeInvoker(() => {
-                            Target.ResumeProcess();
-                            Thread.Sleep(10);
-                            Target.ShowMainWindow();
-                        });
-                    }
-                }
+            } catch (Exception ex) {
+                Program.Log(ex.Message + "\n" + ex.StackTrace + "\n" + ex.Source);
             }
+            RestoreRunning = false;
         }
 
         private Process[] GetExecutingBlackList() {
@@ -590,7 +606,7 @@ namespace Social_Savior {
                 Settings.WarningSoundLevel = NewLevel;
         }
 
-        public static void SafeInvoker(Action Action, Action Timeouted = null, int Timeout = 300) {
+        public static void SafeInvoker(Action Action, Action Timeouted = null, int Timeout = 100) {
             var Begin = DateTime.Now;
             bool Success = false;
             Task Async = new Task(Action);
@@ -623,6 +639,13 @@ namespace Social_Savior {
         private bool StartupStatus() {
             RegistryKey Reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             return Reg.GetValueNames().Contains(AppName);
+        }
+
+        private void TriggerLevelClicked(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left && Settings.WarningSoundLevel > 0)
+                Settings.WarningSoundLevel--;
+            if (e.Button == MouseButtons.Right && Settings.WarningSoundLevel < 100)
+                Settings.WarningSoundLevel++;
         }
     }
     public struct Settings {

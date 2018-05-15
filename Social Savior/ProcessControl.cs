@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Social_Savior {
     static class ProcessControl {
 
-        static Dictionary<int, IntPtr> HandlerMap = new Dictionary<int, IntPtr>();
+        static Dictionary<int, List<IntPtr>> HandlerMap = new Dictionary<int, List<IntPtr>>();
         static Dictionary<int, List<ProcessThread>> ThreadMap = new Dictionary<int, List<ProcessThread>>();
 
         const int SW_HIDE = 0;
@@ -47,22 +47,22 @@ namespace Social_Savior {
         [DllImport("kernel32", CharSet = CharSet.Auto, SetLastError = true)]
         static extern bool CloseHandle(IntPtr handle);
 
-        public static void HideMainWindow(this Process Process) {
-            try {
-                if (Process.MainWindowHandle == IntPtr.Zero)
-                    return;
-            } catch {
-                return;
-            }
-
-            HandlerMap[Process.Id] = Process.MainWindowHandle;
-            ShowWindow(Process.MainWindowHandle, SW_HIDE);
-        }
-        public static void ShowMainWindow(this Process Process) {
+        public static void HideWindow(this Process Process) {
             if (!HandlerMap.ContainsKey(Process.Id))
-                return;          
+                HandlerMap[Process.Id] = new List<IntPtr>();
 
-            ShowWindow(HandlerMap[Process.Id], SW_SHOW);
+            IntPtr Handler;
+            if ((Handler = Process.MainWindowHandle) != IntPtr.Zero) {
+                HandlerMap[Process.Id].Add(Handler);
+                ShowWindow(Process.MainWindowHandle, SW_HIDE);
+            }
+        }
+        public static void ShowWindow(this Process Process) {
+            if (!HandlerMap.ContainsKey(Process.Id))
+                return;
+
+            foreach (IntPtr Handle in HandlerMap[Process.Id])
+                ShowWindow(Handle, SW_SHOW);
         }
 
         public static void FocusMainWindow(this Process Process, bool Maximized = true) {
@@ -96,6 +96,9 @@ namespace Social_Savior {
 
         public static void ResumeProcess(this Process Process) {
             if (Process.ProcessName == string.Empty)
+                return;
+
+            if (!ThreadMap.ContainsKey(Process.Id))
                 return;
 
             foreach (ProcessThread pT in ThreadMap[Process.Id]) {

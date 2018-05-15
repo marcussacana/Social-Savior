@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Social_Savior {
@@ -27,6 +28,13 @@ namespace Social_Savior {
                 Application.Run(new Main());
 
             Environment.Exit(0);
+        }
+
+        public static void Log(string Text) {
+            using (StreamWriter Writer = File.AppendText(AppDomain.CurrentDomain.BaseDirectory + "Social Savior.log")) {
+                Writer.WriteLine($"{DateTime.Now.ToShortTimeString()}: {Text}");
+                Writer.Close();
+            }
         }
     }
 }

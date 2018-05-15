@@ -25,8 +25,8 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            MangaUnhost.ControlRenderer controlRenderer1 = new MangaUnhost.ControlRenderer();
-            MangaUnhost.MSColorTable msColorTable1 = new MangaUnhost.MSColorTable();
+            MangaUnhost.ControlRenderer controlRenderer3 = new MangaUnhost.ControlRenderer();
+            MangaUnhost.MSColorTable msColorTable3 = new MangaUnhost.MSColorTable();
             this.MainContainer = new MangaUnhost.iTalk_ThemeContainer();
             this.iTalk_ControlBox1 = new MangaUnhost.iTalk_ControlBox();
             this.MainTabControl = new MangaUnhost.iTalk_TabControl();
@@ -46,6 +46,7 @@
             this.HideWindowRatio = new MangaUnhost.iTalk_RadioButton();
             this.SuspendProcessRadio = new MangaUnhost.iTalk_RadioButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.StartWithWindowsCK = new MangaUnhost.iTalk_CheckBox();
             this.MicroList = new MangaUnhost.iTalk_ComboBox();
             this.SetupMaxLevelBnt = new MangaUnhost.iTalk_Button_1();
             this.iTalk_GroupBox1 = new MangaUnhost.iTalk_GroupBox();
@@ -84,7 +85,6 @@
             this.iTalk_HeaderLabel1 = new MangaUnhost.iTalk_HeaderLabel();
             this.ProcessScan = new System.Windows.Forms.Timer(this.components);
             this.MicroWatcher = new System.Windows.Forms.Timer(this.components);
-            this.StartWithWindowsCK = new MangaUnhost.iTalk_CheckBox();
             this.MainContainer.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -237,7 +237,7 @@
             this.KillProcIfFailCK.Name = "KillProcIfFailCK";
             this.KillProcIfFailCK.Size = new System.Drawing.Size(260, 15);
             this.KillProcIfFailCK.TabIndex = 4;
-            this.KillProcIfFailCK.Text = "Kill Process if Fails";
+            this.KillProcIfFailCK.Text = "Kill Process if Fails or Timeout";
             this.KillProcIfFailCK.Click += new System.EventHandler(this.UpdateExtraReactions);
             // 
             // FocusAProgramCK
@@ -387,6 +387,18 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Trigger Settings";
             // 
+            // StartWithWindowsCK
+            // 
+            this.StartWithWindowsCK.BackColor = System.Drawing.Color.Transparent;
+            this.StartWithWindowsCK.Checked = false;
+            this.StartWithWindowsCK.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.StartWithWindowsCK.Location = new System.Drawing.Point(229, 230);
+            this.StartWithWindowsCK.Name = "StartWithWindowsCK";
+            this.StartWithWindowsCK.Size = new System.Drawing.Size(159, 15);
+            this.StartWithWindowsCK.TabIndex = 27;
+            this.StartWithWindowsCK.Text = "Start With Windows";
+            this.StartWithWindowsCK.Click += new System.EventHandler(this.StartWindowsClicked);
+            // 
             // MicroList
             // 
             this.MicroList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
@@ -454,6 +466,8 @@
             this.lblWarningLevel.Size = new System.Drawing.Size(22, 13);
             this.lblWarningLevel.TabIndex = 24;
             this.lblWarningLevel.Text = "0%";
+            this.lblWarningLevel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TriggerLevelClicked);
+            this.lblWarningLevel.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TriggerLevelClicked);
             // 
             // iTalk_Label6
             // 
@@ -745,9 +759,9 @@
             this.AddToBlackList,
             this.DelOfTheBlackList});
             this.BlackListMenu.Name = "BlackListMenu";
-            controlRenderer1.ColorTable = msColorTable1;
-            controlRenderer1.RoundedEdges = true;
-            this.BlackListMenu.Renderer = controlRenderer1;
+            controlRenderer3.ColorTable = msColorTable3;
+            controlRenderer3.RoundedEdges = true;
+            this.BlackListMenu.Renderer = controlRenderer3;
             this.BlackListMenu.Size = new System.Drawing.Size(193, 48);
             this.BlackListMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnBlackListMenuOpen);
             // 
@@ -774,9 +788,9 @@
             this.iTalk_Label1.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_Label1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.iTalk_Label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_Label1.Location = new System.Drawing.Point(17, 72);
+            this.iTalk_Label1.Location = new System.Drawing.Point(6, 72);
             this.iTalk_Label1.Name = "iTalk_Label1";
-            this.iTalk_Label1.Size = new System.Drawing.Size(721, 18);
+            this.iTalk_Label1.Size = new System.Drawing.Size(732, 18);
             this.iTalk_Label1.TabIndex = 1;
             this.iTalk_Label1.Text = "The Ultimate Social-Life Savior, If you have one.\r\n";
             this.iTalk_Label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -788,9 +802,9 @@
             this.iTalk_HeaderLabel1.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_HeaderLabel1.Font = new System.Drawing.Font("Segoe UI", 25F);
             this.iTalk_HeaderLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.iTalk_HeaderLabel1.Location = new System.Drawing.Point(12, 28);
+            this.iTalk_HeaderLabel1.Location = new System.Drawing.Point(6, 28);
             this.iTalk_HeaderLabel1.Name = "iTalk_HeaderLabel1";
-            this.iTalk_HeaderLabel1.Size = new System.Drawing.Size(726, 62);
+            this.iTalk_HeaderLabel1.Size = new System.Drawing.Size(732, 62);
             this.iTalk_HeaderLabel1.TabIndex = 0;
             this.iTalk_HeaderLabel1.Text = "Social Savior";
             this.iTalk_HeaderLabel1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -806,18 +820,6 @@
             this.MicroWatcher.Enabled = true;
             this.MicroWatcher.Interval = 10;
             this.MicroWatcher.Tick += new System.EventHandler(this.MicroWatcherTick);
-            // 
-            // StartWithWindowsCK
-            // 
-            this.StartWithWindowsCK.BackColor = System.Drawing.Color.Transparent;
-            this.StartWithWindowsCK.Checked = false;
-            this.StartWithWindowsCK.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.StartWithWindowsCK.Location = new System.Drawing.Point(229, 230);
-            this.StartWithWindowsCK.Name = "StartWithWindowsCK";
-            this.StartWithWindowsCK.Size = new System.Drawing.Size(159, 15);
-            this.StartWithWindowsCK.TabIndex = 27;
-            this.StartWithWindowsCK.Text = "Start With Windows";
-            this.StartWithWindowsCK.Click += new System.EventHandler(this.StartWindowsClicked);
             // 
             // Main
             // 
