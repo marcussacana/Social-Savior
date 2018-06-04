@@ -112,7 +112,7 @@ namespace Social_Savior {
                 Color.Red
             };
             
-            MainContainer.Text = "Social Savior - v" + AppVeyor.CurrentVersion;
+            MainContainer.Text = "Social Savior - v" + GitHub.CurrentVersion;
 
             if (FirstLaunch)
                 HomeMainGB.Text = "Social Savior has not been configured";

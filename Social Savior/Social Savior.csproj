@@ -58,11 +58,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppVeyor.cs" />
     <Compile Include="AudioController.cs" />
     <Compile Include="ColorBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Github.cs" />
     <Compile Include="Hotkey.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
