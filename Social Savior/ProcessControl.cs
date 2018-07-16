@@ -41,7 +41,7 @@ namespace Social_Savior {
         [DllImport("kernel32.dll")]
         static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
         [DllImport("kernel32.dll")]
-        static extern uint SuspendThread(IntPtr hThread);
+        static extern int SuspendThread(IntPtr hThread);
         [DllImport("kernel32.dll")]
         static extern int ResumeThread(IntPtr hThread);
         [DllImport("kernel32", CharSet = CharSet.Auto, SetLastError = true)]
@@ -86,9 +86,12 @@ namespace Social_Savior {
                     continue;
                 }
 
-                ThreadMap[Process.Id].Add(pT);
-
-                SuspendThread(pOpenThread);
+                bool IsSuspended = pT.WaitReason == ThreadWaitReason.Suspended;
+                
+                if (!IsSuspended) {
+                    SuspendThread(pOpenThread);
+                    ThreadMap[Process.Id].Add(pT);
+                }
 
                 CloseHandle(pOpenThread);
             }
@@ -99,7 +102,7 @@ namespace Social_Savior {
                 return;
 
             if (!ThreadMap.ContainsKey(Process.Id))
-                return;
+                return;//We can resume only if he has suspended by our SuspendProcess function
 
             foreach (ProcessThread pT in ThreadMap[Process.Id]) {
                 IntPtr pOpenThread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
