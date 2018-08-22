@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Social_Savior {
@@ -77,7 +78,8 @@ namespace Social_Savior {
             if (Process.ProcessName == string.Empty)
                 return;
 
-            ThreadMap[Process.Id] = new List<ProcessThread>();
+            if (!ThreadMap.ContainsKey(Process.Id))
+                ThreadMap[Process.Id] = new List<ProcessThread>();
 
             foreach (ProcessThread pT in Process.Threads) {
                 IntPtr pOpenThread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
@@ -90,7 +92,9 @@ namespace Social_Savior {
                 
                 if (!IsSuspended) {
                     SuspendThread(pOpenThread);
-                    ThreadMap[Process.Id].Add(pT);
+
+                    if (!ThreadMap[Process.Id].Contains(pT))
+                        ThreadMap[Process.Id].Add(pT);
                 }
 
                 CloseHandle(pOpenThread);
@@ -101,10 +105,13 @@ namespace Social_Savior {
             if (Process.ProcessName == string.Empty)
                 return;
 
-            if (!ThreadMap.ContainsKey(Process.Id))
-                return;//We can resume only if he has suspended by our SuspendProcess function
+            ProcessThread[] Threads;
+            if (ThreadMap.ContainsKey(Process.Id))
+                Threads = ThreadMap[Process.Id].ToArray();
+            else
+                Threads = Process.Threads.Cast<ProcessThread>().ToArray();
 
-            foreach (ProcessThread pT in ThreadMap[Process.Id]) {
+            foreach (ProcessThread pT in Threads) {
                 IntPtr pOpenThread = OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
 
                 if (pOpenThread == IntPtr.Zero) {
@@ -117,6 +124,10 @@ namespace Social_Savior {
                 } while (suspendCount > 0);
 
                 CloseHandle(pOpenThread);
+
+                if (ThreadMap.ContainsKey(Process.Id))
+                    if (ThreadMap[Process.Id].Contains(pT))
+                        ThreadMap[Process.Id].Remove(pT);
             }
         }
 

@@ -36,8 +36,8 @@ Social Savior was designed to be as discrete as possible, so it includes a fake 
 - Mute Blacklist Programs
 	- Mute only the Programs that are in the blacklist
 	- Useful if you need to use the Hide Window reflex action
-- Invoke Screen Saver
-	- Invoke your screensaver (if you have one)
+- Invoke Screensaver or Lock the Computer
+	- Invoke your screensaver if you have one, if not lock the computer.
 - Focus a Program
 	- Automatically Maximizes a program defined by the user
 	- Useful for slacking at work (you lazy)

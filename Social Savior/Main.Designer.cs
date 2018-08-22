@@ -25,8 +25,8 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            MangaUnhost.ControlRenderer controlRenderer3 = new MangaUnhost.ControlRenderer();
-            MangaUnhost.MSColorTable msColorTable3 = new MangaUnhost.MSColorTable();
+            MangaUnhost.ControlRenderer controlRenderer1 = new MangaUnhost.ControlRenderer();
+            MangaUnhost.MSColorTable msColorTable1 = new MangaUnhost.MSColorTable();
             this.MainContainer = new MangaUnhost.iTalk_ThemeContainer();
             this.iTalk_ControlBox1 = new MangaUnhost.iTalk_ControlBox();
             this.MainTabControl = new MangaUnhost.iTalk_TabControl();
@@ -235,7 +235,7 @@
             this.KillProcIfFailCK.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.KillProcIfFailCK.Location = new System.Drawing.Point(6, 105);
             this.KillProcIfFailCK.Name = "KillProcIfFailCK";
-            this.KillProcIfFailCK.Size = new System.Drawing.Size(260, 15);
+            this.KillProcIfFailCK.Size = new System.Drawing.Size(269, 15);
             this.KillProcIfFailCK.TabIndex = 4;
             this.KillProcIfFailCK.Text = "Kill Process if Fails or Timeout";
             this.KillProcIfFailCK.Click += new System.EventHandler(this.UpdateExtraReactions);
@@ -249,7 +249,7 @@
             this.FocusAProgramCK.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.FocusAProgramCK.Location = new System.Drawing.Point(6, 84);
             this.FocusAProgramCK.Name = "FocusAProgramCK";
-            this.FocusAProgramCK.Size = new System.Drawing.Size(260, 15);
+            this.FocusAProgramCK.Size = new System.Drawing.Size(269, 15);
             this.FocusAProgramCK.TabIndex = 3;
             this.FocusAProgramCK.Text = "Focus a program";
             this.FocusAProgramCK.Click += new System.EventHandler(this.UpdateExtraReactions);
@@ -263,9 +263,9 @@
             this.InvokeScreenSaverCK.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.InvokeScreenSaverCK.Location = new System.Drawing.Point(6, 63);
             this.InvokeScreenSaverCK.Name = "InvokeScreenSaverCK";
-            this.InvokeScreenSaverCK.Size = new System.Drawing.Size(260, 15);
+            this.InvokeScreenSaverCK.Size = new System.Drawing.Size(269, 15);
             this.InvokeScreenSaverCK.TabIndex = 2;
-            this.InvokeScreenSaverCK.Text = "Invoke Screen Saver";
+            this.InvokeScreenSaverCK.Text = "Invoke Screensaver or Lock the computer";
             this.InvokeScreenSaverCK.Click += new System.EventHandler(this.UpdateExtraReactions);
             // 
             // MuteBlackListCK
@@ -277,7 +277,7 @@
             this.MuteBlackListCK.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.MuteBlackListCK.Location = new System.Drawing.Point(6, 42);
             this.MuteBlackListCK.Name = "MuteBlackListCK";
-            this.MuteBlackListCK.Size = new System.Drawing.Size(260, 15);
+            this.MuteBlackListCK.Size = new System.Drawing.Size(269, 15);
             this.MuteBlackListCK.TabIndex = 1;
             this.MuteBlackListCK.Text = "Mute Blacklisted Programs";
             this.MuteBlackListCK.Click += new System.EventHandler(this.UpdateExtraReactions);
@@ -291,7 +291,7 @@
             this.MuteComputerCK.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.MuteComputerCK.Location = new System.Drawing.Point(6, 21);
             this.MuteComputerCK.Name = "MuteComputerCK";
-            this.MuteComputerCK.Size = new System.Drawing.Size(260, 15);
+            this.MuteComputerCK.Size = new System.Drawing.Size(269, 15);
             this.MuteComputerCK.TabIndex = 0;
             this.MuteComputerCK.Text = "Mute Computer";
             this.MuteComputerCK.Click += new System.EventHandler(this.UpdateExtraReactions);
@@ -759,9 +759,9 @@
             this.AddToBlackList,
             this.DelOfTheBlackList});
             this.BlackListMenu.Name = "BlackListMenu";
-            controlRenderer3.ColorTable = msColorTable3;
-            controlRenderer3.RoundedEdges = true;
-            this.BlackListMenu.Renderer = controlRenderer3;
+            controlRenderer1.ColorTable = msColorTable1;
+            controlRenderer1.RoundedEdges = true;
+            this.BlackListMenu.Renderer = controlRenderer1;
             this.BlackListMenu.Size = new System.Drawing.Size(193, 48);
             this.BlackListMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnBlackListMenuOpen);
             // 

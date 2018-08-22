@@ -10,6 +10,8 @@ using System.Threading;
 using Microsoft.Win32;
 using NAudio.CoreAudioApi;
 using System.Threading.Tasks;
+using WindowsStartup.Utils;
+using System.Runtime.InteropServices;
 
 namespace Social_Savior {
     public partial class Main : Form {
@@ -207,11 +209,16 @@ namespace Social_Savior {
 
                     if (Settings.InvokeScreenSaver) {
                         RegistryKey screenSaverKey = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop");
+                        bool Lock = false;
                         if (screenSaverKey != null) {
                             string screenSaverFilePath = screenSaverKey.GetValue("SCRNSAVE.EXE", string.Empty).ToString();
                             if (!string.IsNullOrEmpty(screenSaverFilePath) && File.Exists(screenSaverFilePath)) {
                                 Process screenSaverProcess = System.Diagnostics.Process.Start(new ProcessStartInfo(screenSaverFilePath, "/s"));  // "/s" for full-screen mode
-                            }
+                            } else Lock = true;
+                        } else Lock = true;
+
+                        if (Lock) {
+                            LockWorkStation();
                         }
                     }
 
@@ -629,16 +636,17 @@ namespace Social_Savior {
 
         const string AppName = "Social Savior";
         private void StartWindowsClicked(object sender, EventArgs e) {
-            RegistryKey Reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            
+            string Startup = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup);
             if (StartWithWindowsCK.Checked)
-                Reg.SetValue(AppName, string.Format("\"{0}\" /startup", Application.ExecutablePath));
+                ShortcutTool.Create(Startup, AppName, Application.ExecutablePath, "/Startup", "A Social Media Picture Backuper Tool");
             else
-                Reg.DeleteValue(AppName, false);
+                if (StartupStatus())
+                    File.Delete(ShortcutTool.GetShortcutPath(Startup, AppName));
+
         }
         private bool StartupStatus() {
-            RegistryKey Reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            return Reg.GetValueNames().Contains(AppName);
+            string Startup = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup);
+            return File.Exists(ShortcutTool.GetShortcutPath(Startup, AppName));
         }
 
         private void TriggerLevelClicked(object sender, MouseEventArgs e) {
@@ -647,6 +655,10 @@ namespace Social_Savior {
             if (e.Button == MouseButtons.Right && Settings.WarningSoundLevel < 100)
                 Settings.WarningSoundLevel++;
         }
+
+
+        [DllImport("user32")]
+        public static extern void LockWorkStation();
     }
     public struct Settings {
         [FString(Length = 4)]
