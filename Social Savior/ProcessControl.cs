@@ -88,7 +88,7 @@ namespace Social_Savior {
                     continue;
                 }
 
-                bool IsSuspended = pT.WaitReason == ThreadWaitReason.Suspended;
+                bool IsSuspended = pT.ThreadState == ThreadState.Wait && pT.WaitReason == ThreadWaitReason.Suspended;
                 
                 if (!IsSuspended) {
                     SuspendThread(pOpenThread);

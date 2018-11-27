@@ -187,32 +187,29 @@ namespace Social_Savior {
                     Process[] Targets = GetExecutingBlackList();
                     string[] LOG = new string[0];
                     if (Settings.MuteBlacklist) {
-                        Parallel.ForEach(Targets, new Action<Process>((Target) => {
+                        foreach (var Target in Targets)
                             SafeInvoker(() => Target.MuteProcess(true), () => {
                                 if (Settings.KillProcessIfFails)
                                     Target.Kill();
                             });
-                        }));
                     }
 
                     if (Settings.MuteAll)
                         AudioController.AudioManager.SetMasterVolumeMute(true);
 
                     if (HideWindowRatio.Checked) {
-                        Parallel.ForEach(Targets, new Action<Process>((Target) => {
+                        foreach (var Target in Targets)
                             SafeInvoker(Target.HideWindow, () => {
                                 if (Settings.KillProcessIfFails)
                                     Target.Kill();
                             });
-                        }));
                     }
                     if (KillProcessRadio.Checked) {
-                        Parallel.ForEach(Targets, new Action<Process>((Target) => {
+                        foreach (var Target in Targets)
                             SafeInvoker(Target.Kill);
-                        }));
                     }
                     if (SuspendProcessRadio.Checked) {
-                        Parallel.ForEach(Targets, new Action<Process>((Target) => {
+                        foreach (var Target in Targets)
                             SafeInvoker(() => {
                                 Target.HideWindow();
                                 Target.SuspendProcess();
@@ -220,7 +217,6 @@ namespace Social_Savior {
                                 if (Settings.KillProcessIfFails)
                                     Target.Kill();
                             });
-                        }));
                     }
 
                     if (Settings.InvokeScreenSaver) {
@@ -630,25 +626,17 @@ namespace Social_Savior {
                 Settings.WarningSoundLevel = NewLevel;
         }
 
+        public static object obj = new object();
         public static void SafeInvoker(Action Action, Action Timeouted = null, int Timeout = 100) {
-            var Begin = DateTime.Now;
-            bool Success = false;
-            Task Async = new Task(Action);
-            Async.Start();
-            while ((DateTime.Now - Begin).TotalMilliseconds < Timeout) {
-                if (Async.IsFaulted)
-                    break;
-                if (Async.IsCompleted){
-                    Success = true;
-                    break;
+            lock (obj) {
+                Task Async = new Task(Action);
+                Async.Start();
+                if (!Async.Wait(Timeout)) {
+                    try {
+                        Timeouted?.Invoke();
+                    } catch { }
                 }
-                Thread.Sleep(1);
             }
-
-            if (!Success)
-                try {
-                    Timeouted?.Invoke();
-                } catch { }
         }
 
         const string AppName = "Social Savior";
