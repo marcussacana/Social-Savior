@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Security.Principal;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Social_Savior {
     static class Program {
+
+        static bool IsElevated => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+
         public static Form MainFormInstance => Application.OpenForms[0];
         public static bool Execute = false;
         public static bool Startup = false;
+        public static bool Restart = false;
         /// <summary>
         /// Ponto de entrada principal para o aplicativo.
         /// </summary>
@@ -15,16 +22,31 @@ namespace Social_Savior {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (Args?.Length > 0 && Args[0].Trim(' ', '/', '-', '\\').ToLower().StartsWith("startup"))
+            if (Args?.Length > 0 && Args[0].Trim(' ', '/', '-', '\\').ToLower().Contains("startup"))
                 Startup = true;
+
+            if (Args?.Length > 0 && Args[0].Trim(' ', '/', '-', '\\').ToLower().Contains("restart"))
+                Restart = true;
+
+            if (!IsElevated && !Debugger.IsAttached && !Restart) {
+                Process.Start(new ProcessStartInfo() {
+                    Arguments = Startup ? "startup;restart" : "restart",
+                    FileName = Application.ExecutablePath,
+                    Verb = "runas"
+                });
+                Process.GetCurrentProcess().Kill();
+            }
+
+            if (Restart)
+                Thread.Sleep(1000);
 
             if (!Startup) {
                 Application.Run(new Update());
-                if (!System.Diagnostics.Debugger.IsAttached)
+                if (!Debugger.IsAttached)
                     Application.Run(new Welcome());
             }
 
-            if (Execute || Startup || System.Diagnostics.Debugger.IsAttached)
+            if (Execute || Startup || Debugger.IsAttached)
                 Application.Run(new Main());
 
             Environment.Exit(0);

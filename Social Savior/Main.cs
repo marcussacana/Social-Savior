@@ -17,7 +17,8 @@ namespace Social_Savior {
     public partial class Main : Form {
 
         const string Signature = "SSAV";
-        const ushort SettingsVersion = 0;
+        const uint SignatureValue = 0x56415353;
+        const ushort SettingsVersion = 1;
 
         public bool FirstLaunch = false;
         Settings Settings = new Settings();
@@ -35,20 +36,31 @@ namespace Social_Savior {
                 try {
                     using (Stream ReaderStream = new StreamReader(SettingsPath).BaseStream)
                     using (StructReader Reader = new StructReader(ReaderStream)) {
-                        string Sig = Reader.ReadString(StringStyle.CString);
-                        if (Sig != Signature) {
+                        if (Reader.ReadUInt32() != SignatureValue) {
                             Reader.Close();
                             BadSettings();
                         }
                         ushort Ver = Reader.ReadUInt16();
-                        if (Ver != SettingsVersion) {
+
+                        //Update Ver 0 to Ver 1
+                        if (Ver == 0 && SettingsVersion == 1) {
+                            try {
+                                //New: Settings.MaxIDLE
+                                Reader.BaseStream.Position = 0;
+                                Reader.ReadStruct(ref Settings);
+                            } catch { }
+                            if (Settings.Version != Ver)
+                                BadSettings();
+                            else
+                                Settings.Version = SettingsVersion;
+                        } else if (Ver != SettingsVersion) {
                             Reader.Close();
                             BadSettings();
+                        } else {
+                            Reader.BaseStream.Position = 0;
+                            Reader.ReadStruct(ref Settings);
+                            Reader.Close();
                         }
-
-                        Reader.BaseStream.Position = 0;
-                        Reader.ReadStruct(ref Settings);
-                        Reader.Close();
                     }
                 } catch {
                     BadSettings();
@@ -83,6 +95,8 @@ namespace Social_Savior {
                 InvokeScreenSaverCK.Checked = Settings.InvokeScreenSaver;
                 FocusAProgramCK.Checked = Settings.FocusProcess;
                 KillProcIfFailCK.Checked = Settings.KillProcessIfFails;
+
+                MaxIDLE.Value = Settings.MaxIDLE;
 
             } else FirstLaunch = true;
 
@@ -155,11 +169,13 @@ namespace Social_Savior {
             }
         }
 
+        static bool InPanic = false;
         static bool PanicRunning = false;
         static bool RestoreRunning = false;
         private void PanicHotkeyPressed(object sender, KeyPressedEventArgs e) {
             if (PanicRunning)
                 return;
+            InPanic = true;
             PanicRunning = true;
             try {
                 if (Visible) {
@@ -171,32 +187,32 @@ namespace Social_Savior {
                     Process[] Targets = GetExecutingBlackList();
                     string[] LOG = new string[0];
                     if (Settings.MuteBlacklist) {
-                        foreach (Process Target in Targets) {
+                        Parallel.ForEach(Targets, new Action<Process>((Target) => {
                             SafeInvoker(() => Target.MuteProcess(true), () => {
                                 if (Settings.KillProcessIfFails)
                                     Target.Kill();
                             });
-                        }
+                        }));
                     }
 
                     if (Settings.MuteAll)
                         AudioController.AudioManager.SetMasterVolumeMute(true);
 
                     if (HideWindowRatio.Checked) {
-                        foreach (Process Target in Targets) {
+                        Parallel.ForEach(Targets, new Action<Process>((Target) => {
                             SafeInvoker(Target.HideWindow, () => {
                                 if (Settings.KillProcessIfFails)
                                     Target.Kill();
                             });
-                        }
+                        }));
                     }
                     if (KillProcessRadio.Checked) {
-                        foreach (Process Target in Targets) {
+                        Parallel.ForEach(Targets, new Action<Process>((Target) => {
                             SafeInvoker(Target.Kill);
-                        }
+                        }));
                     }
                     if (SuspendProcessRadio.Checked) {
-                        foreach (Process Target in Targets) {
+                        Parallel.ForEach(Targets, new Action<Process>((Target) => {
                             SafeInvoker(() => {
                                 Target.HideWindow();
                                 Target.SuspendProcess();
@@ -204,7 +220,7 @@ namespace Social_Savior {
                                 if (Settings.KillProcessIfFails)
                                     Target.Kill();
                             });
-                        }
+                        }));
                     }
 
                     if (Settings.InvokeScreenSaver) {
@@ -213,7 +229,7 @@ namespace Social_Savior {
                         if (screenSaverKey != null) {
                             string screenSaverFilePath = screenSaverKey.GetValue("SCRNSAVE.EXE", string.Empty).ToString();
                             if (!string.IsNullOrEmpty(screenSaverFilePath) && File.Exists(screenSaverFilePath)) {
-                                Process screenSaverProcess = System.Diagnostics.Process.Start(new ProcessStartInfo(screenSaverFilePath, "/s"));  // "/s" for full-screen mode
+                                System.Diagnostics.Process.Start(new ProcessStartInfo(screenSaverFilePath, "/s"));  // "/s" for full-screen mode
                             } else Lock = true;
                         } else Lock = true;
 
@@ -242,6 +258,7 @@ namespace Social_Savior {
         private void RestoreHotkeyPressed(object sender, KeyPressedEventArgs e) {
             if (RestoreRunning)
                 return;
+            InPanic = false;
             RestoreRunning = true;
             try {
                 if (Visible) {
@@ -657,12 +674,56 @@ namespace Social_Savior {
         }
 
 
-        [DllImport("user32")]
+        [DllImport("user32.dll")]
         public static extern void LockWorkStation();
+
+        [DllImport("user32.dll")]
+        public static extern bool GetLastInputInfo(ref LAST_INPUT_INFO plii);
+
+        public struct LAST_INPUT_INFO {
+            public uint cbSize;
+            public uint dwTime;
+        }
+
+        private void MaxIDLEUpdated(object sender, EventArgs e) {
+            Settings.MaxIDLE = (ushort)MaxIDLE.Value;
+        }
+
+        private uint UnchangedSeconds;
+        private uint LastInputValue;
+        private void WatchIDLE(object sender, EventArgs e) {
+            if (Settings.MaxIDLE == 0) {
+                LbIDLEMin.Text = "Minutes";
+                return;
+            }
+
+            var LII = new LAST_INPUT_INFO() {
+                cbSize = (uint)Marshal.SizeOf(typeof(LAST_INPUT_INFO))
+            };
+            if (!GetLastInputInfo(ref LII)) {
+                LbIDLEMin.Text = "Minutes; ERROR";
+                return;
+            }
+
+            uint LIT = LII.dwTime;
+            if (LIT != LastInputValue) {
+                UnchangedSeconds = 0;
+                LastInputValue = LIT;
+            } else
+                UnchangedSeconds++;
+
+            uint UnchangedMin = UnchangedSeconds / 60;
+            if (UnchangedMin >= Settings.MaxIDLE && !InPanic)
+                PanicHotkeyPressed(null, null);
+
+
+            LbIDLEMin.Text = string.Format("Minutes; IDLE: {1}s", UnchangedMin, UnchangedSeconds);
+        }
     }
     public struct Settings {
         [FString(Length = 4)]
         public string Signature;
+
         public ushort Version;
 
         [StructField]
@@ -688,6 +749,8 @@ namespace Social_Savior {
         [CString]
         public string RecoderDevice;
         public byte WarningSoundLevel;
+
+        public ushort MaxIDLE;
     }
 
     public struct Hotkey {

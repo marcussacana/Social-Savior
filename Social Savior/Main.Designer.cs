@@ -25,8 +25,8 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            MangaUnhost.ControlRenderer controlRenderer1 = new MangaUnhost.ControlRenderer();
-            MangaUnhost.MSColorTable msColorTable1 = new MangaUnhost.MSColorTable();
+            MangaUnhost.ControlRenderer controlRenderer2 = new MangaUnhost.ControlRenderer();
+            MangaUnhost.MSColorTable msColorTable2 = new MangaUnhost.MSColorTable();
             this.MainContainer = new MangaUnhost.iTalk_ThemeContainer();
             this.iTalk_ControlBox1 = new MangaUnhost.iTalk_ControlBox();
             this.MainTabControl = new MangaUnhost.iTalk_TabControl();
@@ -46,6 +46,9 @@
             this.HideWindowRatio = new MangaUnhost.iTalk_RadioButton();
             this.SuspendProcessRadio = new MangaUnhost.iTalk_RadioButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.LbIDLEMin = new MangaUnhost.iTalk_Label();
+            this.MaxIDLE = new System.Windows.Forms.NumericUpDown();
+            this.iTalk_Label13 = new MangaUnhost.iTalk_Label();
             this.StartWithWindowsCK = new MangaUnhost.iTalk_CheckBox();
             this.MicroList = new MangaUnhost.iTalk_ComboBox();
             this.SetupMaxLevelBnt = new MangaUnhost.iTalk_Button_1();
@@ -85,6 +88,7 @@
             this.iTalk_HeaderLabel1 = new MangaUnhost.iTalk_HeaderLabel();
             this.ProcessScan = new System.Windows.Forms.Timer(this.components);
             this.MicroWatcher = new System.Windows.Forms.Timer(this.components);
+            this.IDLEWatcher = new System.Windows.Forms.Timer(this.components);
             this.MainContainer.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -93,6 +97,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxIDLE)).BeginInit();
             this.iTalk_GroupBox1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.BlackListMenu.SuspendLayout();
@@ -355,6 +360,9 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.tabPage3.Controls.Add(this.LbIDLEMin);
+            this.tabPage3.Controls.Add(this.MaxIDLE);
+            this.tabPage3.Controls.Add(this.iTalk_Label13);
             this.tabPage3.Controls.Add(this.StartWithWindowsCK);
             this.tabPage3.Controls.Add(this.MicroList);
             this.tabPage3.Controls.Add(this.SetupMaxLevelBnt);
@@ -386,6 +394,38 @@
             this.tabPage3.Size = new System.Drawing.Size(601, 253);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Trigger Settings";
+            // 
+            // LbIDLEMin
+            // 
+            this.LbIDLEMin.BackColor = System.Drawing.Color.Transparent;
+            this.LbIDLEMin.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.LbIDLEMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.LbIDLEMin.Location = new System.Drawing.Point(407, 88);
+            this.LbIDLEMin.Name = "LbIDLEMin";
+            this.LbIDLEMin.Size = new System.Drawing.Size(180, 24);
+            this.LbIDLEMin.TabIndex = 30;
+            this.LbIDLEMin.Text = "Minutes";
+            this.LbIDLEMin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // MaxIDLE
+            // 
+            this.MaxIDLE.Location = new System.Drawing.Point(350, 92);
+            this.MaxIDLE.Name = "MaxIDLE";
+            this.MaxIDLE.Size = new System.Drawing.Size(51, 22);
+            this.MaxIDLE.TabIndex = 29;
+            this.MaxIDLE.ValueChanged += new System.EventHandler(this.MaxIDLEUpdated);
+            // 
+            // iTalk_Label13
+            // 
+            this.iTalk_Label13.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Label13.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.iTalk_Label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.iTalk_Label13.Location = new System.Drawing.Point(224, 88);
+            this.iTalk_Label13.Name = "iTalk_Label13";
+            this.iTalk_Label13.Size = new System.Drawing.Size(118, 24);
+            this.iTalk_Label13.TabIndex = 28;
+            this.iTalk_Label13.Text = "IDLE Detector:";
+            this.iTalk_Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // StartWithWindowsCK
             // 
@@ -759,9 +799,9 @@
             this.AddToBlackList,
             this.DelOfTheBlackList});
             this.BlackListMenu.Name = "BlackListMenu";
-            controlRenderer1.ColorTable = msColorTable1;
-            controlRenderer1.RoundedEdges = true;
-            this.BlackListMenu.Renderer = controlRenderer1;
+            controlRenderer2.ColorTable = msColorTable2;
+            controlRenderer2.RoundedEdges = true;
+            this.BlackListMenu.Renderer = controlRenderer2;
             this.BlackListMenu.Size = new System.Drawing.Size(193, 48);
             this.BlackListMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnBlackListMenuOpen);
             // 
@@ -821,6 +861,12 @@
             this.MicroWatcher.Interval = 10;
             this.MicroWatcher.Tick += new System.EventHandler(this.MicroWatcherTick);
             // 
+            // IDLEWatcher
+            // 
+            this.IDLEWatcher.Enabled = true;
+            this.IDLEWatcher.Interval = 1000;
+            this.IDLEWatcher.Tick += new System.EventHandler(this.WatchIDLE);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -843,6 +889,7 @@
             this.groupBox1.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxIDLE)).EndInit();
             this.iTalk_GroupBox1.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.BlackListMenu.ResumeLayout(false);
@@ -910,5 +957,9 @@
         private MangaUnhost.iTalk_ComboBox MicroList;
         private MangaUnhost.iTalk_CheckBox KillProcIfFailCK;
         private MangaUnhost.iTalk_CheckBox StartWithWindowsCK;
+        private MangaUnhost.iTalk_Label LbIDLEMin;
+        private System.Windows.Forms.NumericUpDown MaxIDLE;
+        private MangaUnhost.iTalk_Label iTalk_Label13;
+        private System.Windows.Forms.Timer IDLEWatcher;
     }
 }

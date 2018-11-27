@@ -6,7 +6,9 @@ using System.Windows.Forms;
 namespace Social_Savior {
     public static class SingleInstanceService {
         public static bool PipeIsOpen() {
-            return Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(Application.ExecutablePath)).Length > 1;
+            string Name = System.IO.Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+            var Procs = Process.GetProcessesByName(Name);
+            return Procs.Length > 1;
         }
 
         public static void StartPipe() {

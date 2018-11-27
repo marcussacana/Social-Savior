@@ -49,6 +49,8 @@ Social Savior was designed to be as discrete as possible, so it includes a fake 
 		- Make sure to test if your hotkey is working!
 	- Select a Microphone or select the "Disabled" Option
 		- Click at "Change Trigger Level" and read the tutorial message		
+	- Auto Trigger if IDLE
+		- Make sure to see if the timer change when you do nothing!
 - Panic Blacklist
 	- Select all programs that you want to be hidden
 	- The program will be searched using it's process name
