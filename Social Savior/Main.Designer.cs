@@ -25,8 +25,8 @@
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            MangaUnhost.ControlRenderer controlRenderer2 = new MangaUnhost.ControlRenderer();
-            MangaUnhost.MSColorTable msColorTable2 = new MangaUnhost.MSColorTable();
+            MangaUnhost.ControlRenderer controlRenderer1 = new MangaUnhost.ControlRenderer();
+            MangaUnhost.MSColorTable msColorTable1 = new MangaUnhost.MSColorTable();
             this.MainContainer = new MangaUnhost.iTalk_ThemeContainer();
             this.iTalk_ControlBox1 = new MangaUnhost.iTalk_ControlBox();
             this.MainTabControl = new MangaUnhost.iTalk_TabControl();
@@ -46,6 +46,14 @@
             this.HideWindowRatio = new MangaUnhost.iTalk_RadioButton();
             this.SuspendProcessRadio = new MangaUnhost.iTalk_RadioButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.iTalk_Label14 = new MangaUnhost.iTalk_Label();
+            this.iTalk_Label15 = new MangaUnhost.iTalk_Label();
+            this.iTalk_Label16 = new MangaUnhost.iTalk_Label();
+            this.ckIDLEShift = new MangaUnhost.iTalk_CheckBox();
+            this.ckIDLEAlt = new MangaUnhost.iTalk_CheckBox();
+            this.ckIDLECtrl = new MangaUnhost.iTalk_CheckBox();
+            this.tbIDLE = new System.Windows.Forms.TextBox();
+            this.iTalk_Label17 = new MangaUnhost.iTalk_Label();
             this.LbIDLEMin = new MangaUnhost.iTalk_Label();
             this.MaxIDLE = new System.Windows.Forms.NumericUpDown();
             this.iTalk_Label13 = new MangaUnhost.iTalk_Label();
@@ -89,6 +97,7 @@
             this.ProcessScan = new System.Windows.Forms.Timer(this.components);
             this.MicroWatcher = new System.Windows.Forms.Timer(this.components);
             this.IDLEWatcher = new System.Windows.Forms.Timer(this.components);
+            this.IDLESuspension = new System.Windows.Forms.Timer(this.components);
             this.MainContainer.SuspendLayout();
             this.MainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -360,6 +369,14 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.tabPage3.Controls.Add(this.iTalk_Label14);
+            this.tabPage3.Controls.Add(this.iTalk_Label15);
+            this.tabPage3.Controls.Add(this.iTalk_Label16);
+            this.tabPage3.Controls.Add(this.ckIDLEShift);
+            this.tabPage3.Controls.Add(this.ckIDLEAlt);
+            this.tabPage3.Controls.Add(this.ckIDLECtrl);
+            this.tabPage3.Controls.Add(this.tbIDLE);
+            this.tabPage3.Controls.Add(this.iTalk_Label17);
             this.tabPage3.Controls.Add(this.LbIDLEMin);
             this.tabPage3.Controls.Add(this.MaxIDLE);
             this.tabPage3.Controls.Add(this.iTalk_Label13);
@@ -395,6 +412,96 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Trigger Settings";
             // 
+            // iTalk_Label14
+            // 
+            this.iTalk_Label14.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Label14.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.iTalk_Label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.iTalk_Label14.Location = new System.Drawing.Point(314, 66);
+            this.iTalk_Label14.Name = "iTalk_Label14";
+            this.iTalk_Label14.Size = new System.Drawing.Size(16, 18);
+            this.iTalk_Label14.TabIndex = 38;
+            this.iTalk_Label14.Text = "+";
+            // 
+            // iTalk_Label15
+            // 
+            this.iTalk_Label15.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Label15.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.iTalk_Label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.iTalk_Label15.Location = new System.Drawing.Point(237, 66);
+            this.iTalk_Label15.Name = "iTalk_Label15";
+            this.iTalk_Label15.Size = new System.Drawing.Size(16, 18);
+            this.iTalk_Label15.TabIndex = 37;
+            this.iTalk_Label15.Text = "+";
+            // 
+            // iTalk_Label16
+            // 
+            this.iTalk_Label16.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Label16.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.iTalk_Label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.iTalk_Label16.Location = new System.Drawing.Point(178, 66);
+            this.iTalk_Label16.Name = "iTalk_Label16";
+            this.iTalk_Label16.Size = new System.Drawing.Size(16, 18);
+            this.iTalk_Label16.TabIndex = 36;
+            this.iTalk_Label16.Text = "+";
+            // 
+            // ckIDLEShift
+            // 
+            this.ckIDLEShift.BackColor = System.Drawing.Color.Transparent;
+            this.ckIDLEShift.Checked = false;
+            this.ckIDLEShift.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.ckIDLEShift.Location = new System.Drawing.Point(259, 66);
+            this.ckIDLEShift.Name = "ckIDLEShift";
+            this.ckIDLEShift.Size = new System.Drawing.Size(49, 15);
+            this.ckIDLEShift.TabIndex = 35;
+            this.ckIDLEShift.Text = "Shift";
+            this.ckIDLEShift.Click += new System.EventHandler(this.IDLEShiftClicked);
+            // 
+            // ckIDLEAlt
+            // 
+            this.ckIDLEAlt.BackColor = System.Drawing.Color.Transparent;
+            this.ckIDLEAlt.Checked = false;
+            this.ckIDLEAlt.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.ckIDLEAlt.Location = new System.Drawing.Point(200, 66);
+            this.ckIDLEAlt.Name = "ckIDLEAlt";
+            this.ckIDLEAlt.Size = new System.Drawing.Size(40, 15);
+            this.ckIDLEAlt.TabIndex = 34;
+            this.ckIDLEAlt.Text = "Alt";
+            this.ckIDLEAlt.Click += new System.EventHandler(this.IDLEAltClicked);
+            // 
+            // ckIDLECtrl
+            // 
+            this.ckIDLECtrl.BackColor = System.Drawing.Color.Transparent;
+            this.ckIDLECtrl.Checked = false;
+            this.ckIDLECtrl.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.ckIDLECtrl.Location = new System.Drawing.Point(133, 66);
+            this.ckIDLECtrl.Name = "ckIDLECtrl";
+            this.ckIDLECtrl.Size = new System.Drawing.Size(47, 15);
+            this.ckIDLECtrl.TabIndex = 33;
+            this.ckIDLECtrl.Text = "Ctrl";
+            this.ckIDLECtrl.Click += new System.EventHandler(this.IDLECtrlClicked);
+            // 
+            // tbIDLE
+            // 
+            this.tbIDLE.Location = new System.Drawing.Point(336, 63);
+            this.tbIDLE.Name = "tbIDLE";
+            this.tbIDLE.Size = new System.Drawing.Size(76, 22);
+            this.tbIDLE.TabIndex = 32;
+            this.tbIDLE.Text = "NONE";
+            this.tbIDLE.KeyDown += new System.Windows.Forms.KeyEventHandler(this.IDLE_KeyDown);
+            // 
+            // iTalk_Label17
+            // 
+            this.iTalk_Label17.BackColor = System.Drawing.Color.Transparent;
+            this.iTalk_Label17.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.iTalk_Label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
+            this.iTalk_Label17.Location = new System.Drawing.Point(3, 57);
+            this.iTalk_Label17.Name = "iTalk_Label17";
+            this.iTalk_Label17.Size = new System.Drawing.Size(124, 24);
+            this.iTalk_Label17.TabIndex = 31;
+            this.iTalk_Label17.Text = "Allow IDLE Hotkey:";
+            this.iTalk_Label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // LbIDLEMin
             // 
             this.LbIDLEMin.BackColor = System.Drawing.Color.Transparent;
@@ -404,7 +511,7 @@
             this.LbIDLEMin.Name = "LbIDLEMin";
             this.LbIDLEMin.Size = new System.Drawing.Size(180, 24);
             this.LbIDLEMin.TabIndex = 30;
-            this.LbIDLEMin.Text = "Minutes";
+            this.LbIDLEMin.Text = "Min";
             this.LbIDLEMin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MaxIDLE
@@ -477,11 +584,11 @@
             this.iTalk_GroupBox1.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_GroupBox1.Controls.Add(this.lblPanicTest);
             this.iTalk_GroupBox1.ForeColor = System.Drawing.Color.Red;
-            this.iTalk_GroupBox1.Location = new System.Drawing.Point(6, 60);
+            this.iTalk_GroupBox1.Location = new System.Drawing.Point(6, 88);
             this.iTalk_GroupBox1.MinimumSize = new System.Drawing.Size(136, 50);
             this.iTalk_GroupBox1.Name = "iTalk_GroupBox1";
             this.iTalk_GroupBox1.Padding = new System.Windows.Forms.Padding(5, 28, 5, 5);
-            this.iTalk_GroupBox1.Size = new System.Drawing.Size(212, 190);
+            this.iTalk_GroupBox1.Size = new System.Drawing.Size(212, 162);
             this.iTalk_GroupBox1.TabIndex = 17;
             this.iTalk_GroupBox1.Text = "Panic Test";
             // 
@@ -493,7 +600,7 @@
             this.lblPanicTest.ForeColor = System.Drawing.Color.White;
             this.lblPanicTest.Location = new System.Drawing.Point(5, 28);
             this.lblPanicTest.Name = "lblPanicTest";
-            this.lblPanicTest.Size = new System.Drawing.Size(202, 157);
+            this.lblPanicTest.Size = new System.Drawing.Size(202, 129);
             this.lblPanicTest.TabIndex = 0;
             this.lblPanicTest.Text = "Not In Panic";
             this.lblPanicTest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -514,7 +621,7 @@
             this.iTalk_Label6.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_Label6.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.iTalk_Label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_Label6.Location = new System.Drawing.Point(290, 39);
+            this.iTalk_Label6.Location = new System.Drawing.Point(314, 42);
             this.iTalk_Label6.Name = "iTalk_Label6";
             this.iTalk_Label6.Size = new System.Drawing.Size(16, 18);
             this.iTalk_Label6.TabIndex = 15;
@@ -534,7 +641,7 @@
             this.iTalk_Label7.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_Label7.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.iTalk_Label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_Label7.Location = new System.Drawing.Point(213, 39);
+            this.iTalk_Label7.Location = new System.Drawing.Point(237, 42);
             this.iTalk_Label7.Name = "iTalk_Label7";
             this.iTalk_Label7.Size = new System.Drawing.Size(16, 18);
             this.iTalk_Label7.TabIndex = 14;
@@ -569,7 +676,7 @@
             this.iTalk_Label8.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_Label8.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.iTalk_Label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_Label8.Location = new System.Drawing.Point(154, 39);
+            this.iTalk_Label8.Location = new System.Drawing.Point(178, 42);
             this.iTalk_Label8.Name = "iTalk_Label8";
             this.iTalk_Label8.Size = new System.Drawing.Size(16, 18);
             this.iTalk_Label8.TabIndex = 13;
@@ -580,7 +687,7 @@
             this.RestoreShiftCK.BackColor = System.Drawing.Color.Transparent;
             this.RestoreShiftCK.Checked = false;
             this.RestoreShiftCK.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.RestoreShiftCK.Location = new System.Drawing.Point(235, 39);
+            this.RestoreShiftCK.Location = new System.Drawing.Point(259, 42);
             this.RestoreShiftCK.Name = "RestoreShiftCK";
             this.RestoreShiftCK.Size = new System.Drawing.Size(49, 15);
             this.RestoreShiftCK.TabIndex = 12;
@@ -604,7 +711,7 @@
             this.RestoreAltCK.BackColor = System.Drawing.Color.Transparent;
             this.RestoreAltCK.Checked = false;
             this.RestoreAltCK.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.RestoreAltCK.Location = new System.Drawing.Point(176, 39);
+            this.RestoreAltCK.Location = new System.Drawing.Point(200, 42);
             this.RestoreAltCK.Name = "RestoreAltCK";
             this.RestoreAltCK.Size = new System.Drawing.Size(40, 15);
             this.RestoreAltCK.TabIndex = 11;
@@ -616,7 +723,7 @@
             this.RestoreCtrlCK.BackColor = System.Drawing.Color.Transparent;
             this.RestoreCtrlCK.Checked = false;
             this.RestoreCtrlCK.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.RestoreCtrlCK.Location = new System.Drawing.Point(109, 39);
+            this.RestoreCtrlCK.Location = new System.Drawing.Point(133, 42);
             this.RestoreCtrlCK.Name = "RestoreCtrlCK";
             this.RestoreCtrlCK.Size = new System.Drawing.Size(47, 15);
             this.RestoreCtrlCK.TabIndex = 10;
@@ -643,7 +750,7 @@
             // 
             // RestoreTB
             // 
-            this.RestoreTB.Location = new System.Drawing.Point(312, 36);
+            this.RestoreTB.Location = new System.Drawing.Point(336, 39);
             this.RestoreTB.Name = "RestoreTB";
             this.RestoreTB.Size = new System.Drawing.Size(76, 22);
             this.RestoreTB.TabIndex = 9;
@@ -657,7 +764,7 @@
             this.iTalk_Label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
             this.iTalk_Label9.Location = new System.Drawing.Point(3, 33);
             this.iTalk_Label9.Name = "iTalk_Label9";
-            this.iTalk_Label9.Size = new System.Drawing.Size(100, 24);
+            this.iTalk_Label9.Size = new System.Drawing.Size(124, 24);
             this.iTalk_Label9.TabIndex = 8;
             this.iTalk_Label9.Text = "Restore Hotkey:";
             this.iTalk_Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -667,7 +774,7 @@
             this.iTalk_Label5.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_Label5.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.iTalk_Label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_Label5.Location = new System.Drawing.Point(290, 15);
+            this.iTalk_Label5.Location = new System.Drawing.Point(314, 18);
             this.iTalk_Label5.Name = "iTalk_Label5";
             this.iTalk_Label5.Size = new System.Drawing.Size(16, 18);
             this.iTalk_Label5.TabIndex = 7;
@@ -678,7 +785,7 @@
             this.iTalk_Label4.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_Label4.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.iTalk_Label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_Label4.Location = new System.Drawing.Point(213, 15);
+            this.iTalk_Label4.Location = new System.Drawing.Point(237, 18);
             this.iTalk_Label4.Name = "iTalk_Label4";
             this.iTalk_Label4.Size = new System.Drawing.Size(16, 18);
             this.iTalk_Label4.TabIndex = 6;
@@ -689,7 +796,7 @@
             this.iTalk_Label3.BackColor = System.Drawing.Color.Transparent;
             this.iTalk_Label3.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.iTalk_Label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
-            this.iTalk_Label3.Location = new System.Drawing.Point(154, 15);
+            this.iTalk_Label3.Location = new System.Drawing.Point(178, 18);
             this.iTalk_Label3.Name = "iTalk_Label3";
             this.iTalk_Label3.Size = new System.Drawing.Size(16, 18);
             this.iTalk_Label3.TabIndex = 5;
@@ -700,7 +807,7 @@
             this.PanicShiftCK.BackColor = System.Drawing.Color.Transparent;
             this.PanicShiftCK.Checked = false;
             this.PanicShiftCK.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.PanicShiftCK.Location = new System.Drawing.Point(235, 15);
+            this.PanicShiftCK.Location = new System.Drawing.Point(259, 18);
             this.PanicShiftCK.Name = "PanicShiftCK";
             this.PanicShiftCK.Size = new System.Drawing.Size(49, 15);
             this.PanicShiftCK.TabIndex = 4;
@@ -712,7 +819,7 @@
             this.PanicAltCK.BackColor = System.Drawing.Color.Transparent;
             this.PanicAltCK.Checked = false;
             this.PanicAltCK.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.PanicAltCK.Location = new System.Drawing.Point(176, 15);
+            this.PanicAltCK.Location = new System.Drawing.Point(200, 18);
             this.PanicAltCK.Name = "PanicAltCK";
             this.PanicAltCK.Size = new System.Drawing.Size(40, 15);
             this.PanicAltCK.TabIndex = 3;
@@ -724,7 +831,7 @@
             this.PanicCtrlCK.BackColor = System.Drawing.Color.Transparent;
             this.PanicCtrlCK.Checked = false;
             this.PanicCtrlCK.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.PanicCtrlCK.Location = new System.Drawing.Point(109, 15);
+            this.PanicCtrlCK.Location = new System.Drawing.Point(133, 18);
             this.PanicCtrlCK.Name = "PanicCtrlCK";
             this.PanicCtrlCK.Size = new System.Drawing.Size(47, 15);
             this.PanicCtrlCK.TabIndex = 2;
@@ -733,7 +840,7 @@
             // 
             // PanicTB
             // 
-            this.PanicTB.Location = new System.Drawing.Point(312, 12);
+            this.PanicTB.Location = new System.Drawing.Point(336, 15);
             this.PanicTB.Name = "PanicTB";
             this.PanicTB.Size = new System.Drawing.Size(76, 22);
             this.PanicTB.TabIndex = 1;
@@ -747,7 +854,7 @@
             this.iTalk_Label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(142)))), ((int)(((byte)(142)))));
             this.iTalk_Label2.Location = new System.Drawing.Point(3, 9);
             this.iTalk_Label2.Name = "iTalk_Label2";
-            this.iTalk_Label2.Size = new System.Drawing.Size(100, 24);
+            this.iTalk_Label2.Size = new System.Drawing.Size(124, 24);
             this.iTalk_Label2.TabIndex = 0;
             this.iTalk_Label2.Text = "Panic Hotkey:";
             this.iTalk_Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -799,9 +906,9 @@
             this.AddToBlackList,
             this.DelOfTheBlackList});
             this.BlackListMenu.Name = "BlackListMenu";
-            controlRenderer2.ColorTable = msColorTable2;
-            controlRenderer2.RoundedEdges = true;
-            this.BlackListMenu.Renderer = controlRenderer2;
+            controlRenderer1.ColorTable = msColorTable1;
+            controlRenderer1.RoundedEdges = true;
+            this.BlackListMenu.Renderer = controlRenderer1;
             this.BlackListMenu.Size = new System.Drawing.Size(193, 48);
             this.BlackListMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnBlackListMenuOpen);
             // 
@@ -866,6 +973,11 @@
             this.IDLEWatcher.Enabled = true;
             this.IDLEWatcher.Interval = 1000;
             this.IDLEWatcher.Tick += new System.EventHandler(this.WatchIDLE);
+            // 
+            // IDLESuspension
+            // 
+            this.IDLESuspension.Interval = 1000;
+            this.IDLESuspension.Tick += new System.EventHandler(this.IdleSuspension);
             // 
             // Main
             // 
@@ -961,5 +1073,14 @@
         private System.Windows.Forms.NumericUpDown MaxIDLE;
         private MangaUnhost.iTalk_Label iTalk_Label13;
         private System.Windows.Forms.Timer IDLEWatcher;
+        private MangaUnhost.iTalk_Label iTalk_Label14;
+        private MangaUnhost.iTalk_Label iTalk_Label15;
+        private MangaUnhost.iTalk_Label iTalk_Label16;
+        private MangaUnhost.iTalk_CheckBox ckIDLEShift;
+        private MangaUnhost.iTalk_CheckBox ckIDLEAlt;
+        private MangaUnhost.iTalk_CheckBox ckIDLECtrl;
+        private System.Windows.Forms.TextBox tbIDLE;
+        private MangaUnhost.iTalk_Label iTalk_Label17;
+        private System.Windows.Forms.Timer IDLESuspension;
     }
 }

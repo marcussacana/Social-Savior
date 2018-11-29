@@ -44,8 +44,11 @@ Social Savior was designed to be as discrete as possible, so it includes a fake 
 - Kill the Process If it Fails
 	- At failing to hide any target process, tries to kill the process
 	- Recommended if you use the Suspend Reflex Action
+- IDLE Detector
+	- If you are out of the computer he will automatically enter in panic
+	- If for a certain reason you don't will touch in the computer but isn't IDLE, use the Allow IDLE Hotkey
 - Trigger Settings
-	- Customize the Panic and Restore Hotkeys
+	- Customize the Panic, Restore and Allow IDLE Hotkeys
 		- Make sure to test if your hotkey is working!
 	- Select a Microphone or select the "Disabled" Option
 		- Click at "Change Trigger Level" and read the tutorial message		

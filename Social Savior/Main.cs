@@ -18,13 +18,15 @@ namespace Social_Savior {
 
         const string Signature = "SSAV";
         const uint SignatureValue = 0x56415353;
-        const ushort SettingsVersion = 1;
+        const ushort SettingsVersion = 2;
 
+        public bool Initialized = false;
         public bool FirstLaunch = false;
         Settings Settings = new Settings();
 
         KeyboardHook PanicHotkey = new KeyboardHook();
         KeyboardHook RestoreHotkey = new KeyboardHook();
+        KeyboardHook IDLEHotkey = new KeyboardHook();
 
         MMDevice Microphone = null;
         bool LevelSetup = false;
@@ -42,17 +44,13 @@ namespace Social_Savior {
                         }
                         ushort Ver = Reader.ReadUInt16();
 
-                        //Update Ver 0 to Ver 1
-                        if (Ver == 0 && SettingsVersion == 1) {
+
+                        if (Ver < SettingsVersion) {
                             try {
-                                //New: Settings.MaxIDLE
                                 Reader.BaseStream.Position = 0;
                                 Reader.ReadStruct(ref Settings);
                             } catch { }
-                            if (Settings.Version != Ver)
-                                BadSettings();
-                            else
-                                Settings.Version = SettingsVersion;
+                            Settings.Version = SettingsVersion;
                         } else if (Ver != SettingsVersion) {
                             Reader.Close();
                             BadSettings();
@@ -69,7 +67,7 @@ namespace Social_Savior {
 
             InitializeComponent();
 
-            if (SingleInstanceService.PipeIsOpen()) {
+            if (SingleInstanceService.PipeIsOpen() && !Debugger.IsAttached) {
                 SingleInstanceService.RequestOpen();
                 Environment.Exit(0);
             }
@@ -89,6 +87,12 @@ namespace Social_Savior {
                 RestoreCtrlCK.Checked = Settings.Restore.Ctrl;
                 RestoreShiftCK.Checked = Settings.Restore.Shift;
                 RestoreTB.Text = KeyName((Keys)Settings.Restore.KeyCode);
+
+                ckIDLEAlt.Checked = Settings.AllowIdle.Alt;
+                ckIDLECtrl.Checked = Settings.AllowIdle.Ctrl;
+                ckIDLEShift.Checked = Settings.AllowIdle.Shift;
+                tbIDLE.Text = KeyName((Keys)Settings.AllowIdle.KeyCode);
+
 
                 MuteComputerCK.Checked = Settings.MuteAll;
                 MuteBlackListCK.Checked = Settings.MuteBlacklist;
@@ -121,6 +125,14 @@ namespace Social_Savior {
                 MessageBox.Show("Failed to Register hotkey, Please Try a new Restore Hotkey.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            try {
+                if ((Keys)Settings.AllowIdle.KeyCode != Keys.None) {
+                    IDLEHotkey.RegisterHotKey(GetIDLEModifiers(), (Keys)Settings.AllowIdle.KeyCode);
+                    IDLEHotkey.KeyPressed += IDLEHotkeyPressed;
+                }
+            } catch {
+                MessageBox.Show("Failed to Register hotkey, Please Try a new Restore Hotkey.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             MicroLevel.ColorList = new List<Color> {
                 Color.Lime,
@@ -141,6 +153,8 @@ namespace Social_Savior {
             if (Program.Startup) {
                Shown += (a, b) => Close();
             } else Focus();
+
+            Initialized = true;
         }
 
         private void InitializeMicrophone() {
@@ -292,6 +306,15 @@ namespace Social_Savior {
             RestoreRunning = false;
         }
 
+        private void IDLEHotkeyPressed(object sender, KeyPressedEventArgs e) {
+            if (Visible) {
+                lblPanicTest.Text = "IDLE\nPaused";
+                lblPanicTest.BackColor = Color.Yellow;
+            }
+            IDLEWatcher.Enabled = false;
+            IDLESuspension.Enabled = true;
+        }
+
         private Process[] GetExecutingBlackList() {
             return (from x in System.Diagnostics.Process.GetProcesses() where Settings.Blacklist.Contains(x.ProcessName) select x).ToArray();
         }
@@ -322,6 +345,20 @@ namespace Social_Savior {
 
             Settings.Restore.KeyCode = (int)e.KeyCode;
             UpdateRestoreHotKey();
+        }
+
+
+        private void IDLE_KeyDown(object sender, KeyEventArgs e) {
+            e.SuppressKeyPress = true;
+
+            tbIDLE.Text = KeyName(e.KeyCode);
+            if (tbIDLE.Text.Contains(",")) {
+                MessageBox.Show("Invalid Hotkey", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tbIDLE.Text = KeyName((Keys)Settings.Restore.KeyCode);
+                return;
+            }
+
+            Settings.AllowIdle.KeyCode = (int)e.KeyCode;
         }
 
         public byte GetReflexCode() {
@@ -387,6 +424,17 @@ namespace Social_Savior {
                 MessageBox.Show("Failed to Register this Hotkey", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        public void UpdateIDLEHotKey() {
+            IDLEHotkey.Dispose();
+            Thread.Sleep(100);
+            IDLEHotkey = new KeyboardHook();
+            try {
+                IDLEHotkey.RegisterHotKey(GetIDLEModifiers(), (Keys)Settings.AllowIdle.KeyCode);
+                IDLEHotkey.KeyPressed += RestoreHotkeyPressed;
+            } catch {
+                MessageBox.Show("Failed to Register this Hotkey", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         public ModifierKeys GetPanicModifiers() {
             ModifierKeys Modifiers = new ModifierKeys();
@@ -410,6 +458,20 @@ namespace Social_Savior {
             if (Settings.Restore.Shift)
                 Modifiers |= Social_Savior.ModifierKeys.Shift;
             if (Settings.Restore.Win)
+                Modifiers |= Social_Savior.ModifierKeys.Win;
+
+            return Modifiers;
+        }
+
+        public ModifierKeys GetIDLEModifiers() {
+            ModifierKeys Modifiers = new ModifierKeys();
+            if (Settings.AllowIdle.Ctrl)
+                Modifiers |= Social_Savior.ModifierKeys.Control;
+            if (Settings.AllowIdle.Alt)
+                Modifiers |= Social_Savior.ModifierKeys.Alt;
+            if (Settings.AllowIdle.Shift)
+                Modifiers |= Social_Savior.ModifierKeys.Shift;
+            if (Settings.AllowIdle.Win)
                 Modifiers |= Social_Savior.ModifierKeys.Win;
 
             return Modifiers;
@@ -475,6 +537,21 @@ namespace Social_Savior {
 
         private void ReflexChanged(object sender, EventArgs e) {
             Settings.ReflexAction = GetReflexCode();
+        }
+
+        private void IDLECtrlClicked(object sender, EventArgs e) {
+            Settings.AllowIdle.Ctrl = ckIDLECtrl.Checked;
+            UpdateIDLEHotKey();
+        }
+
+        private void IDLEAltClicked(object sender, EventArgs e) {
+            Settings.AllowIdle.Alt = ckIDLECtrl.Checked;
+            UpdateIDLEHotKey();
+        }
+
+        private void IDLEShiftClicked(object sender, EventArgs e) {
+            Settings.AllowIdle.Shift = ckIDLECtrl.Checked;
+            UpdateIDLEHotKey();
         }
 
         private void iTalk_Button_11_Click(object sender, EventArgs e) {
@@ -675,13 +752,25 @@ namespace Social_Savior {
 
         private void MaxIDLEUpdated(object sender, EventArgs e) {
             Settings.MaxIDLE = (ushort)MaxIDLE.Value;
+
+            if (Initialized) {
+                if (Settings.MaxIDLE == 0 && Visible) {
+                    lblPanicTest.Text = "IDLE\nOFF";
+                    lblPanicTest.BackColor = Color.Yellow;
+                } else {
+                    lblPanicTest.Text = "IDLE\nON";
+                    lblPanicTest.BackColor = Color.Lime;
+                }
+            }
         }
 
         private uint UnchangedSeconds;
+        private uint ChangedSeconds;
         private uint LastInputValue;
+        private bool Suspended;
         private void WatchIDLE(object sender, EventArgs e) {
             if (Settings.MaxIDLE == 0) {
-                LbIDLEMin.Text = "Minutes";
+                LbIDLEMin.Text = "Min";
                 return;
             }
 
@@ -689,7 +778,7 @@ namespace Social_Savior {
                 cbSize = (uint)Marshal.SizeOf(typeof(LAST_INPUT_INFO))
             };
             if (!GetLastInputInfo(ref LII)) {
-                LbIDLEMin.Text = "Minutes; ERROR";
+                LbIDLEMin.Text = "Min; ERROR";
                 return;
             }
 
@@ -705,7 +794,52 @@ namespace Social_Savior {
                 PanicHotkeyPressed(null, null);
 
 
-            LbIDLEMin.Text = string.Format("Minutes; IDLE: {1}s", UnchangedMin, UnchangedSeconds);
+            LbIDLEMin.Text = string.Format("Min; IDLE: {1}s", UnchangedMin, UnchangedSeconds);
+        }
+
+        private void IdleSuspension(object sender, EventArgs e) {
+            LbIDLEMin.Text = "Min";
+            if (Settings.MaxIDLE == 0)
+                return;
+
+            var LII = new LAST_INPUT_INFO() {
+                cbSize = (uint)Marshal.SizeOf(typeof(LAST_INPUT_INFO))
+            };
+            if (!GetLastInputInfo(ref LII)) {
+                LbIDLEMin.Text = "Min; ERROR";
+                return;
+            }
+
+            uint LIT = LII.dwTime;
+            if (LIT != LastInputValue) {
+                UnchangedSeconds = 0;
+                LastInputValue = LIT;
+            } else
+                UnchangedSeconds++;
+
+
+            if (!Suspended && UnchangedSeconds > 5)
+                Suspended = true;
+            else if (!Suspended)
+                LbIDLEMin.Text = string.Format("Min; Not Suspended ({0}s of 6s)", UnchangedSeconds);
+            else { 
+                if (ChangedSeconds > 4) {
+                    LbIDLEMin.Text = "Min";
+                    Suspended = false;
+                    IDLESuspension.Enabled = false;
+                    IDLEWatcher.Enabled = true;
+
+                    if (Visible) {
+                        lblPanicTest.Text = "IDLE\nRunning";
+                        lblPanicTest.BackColor = Color.Lime;
+                    }
+                } else if (UnchangedSeconds <= 1)
+                    ChangedSeconds++;
+                 else
+                    ChangedSeconds = 0;
+
+                LbIDLEMin.Text = string.Format("Min; Suspended ({0}s of 5s)", ChangedSeconds);
+            }
         }
     }
     public struct Settings {
@@ -739,6 +873,9 @@ namespace Social_Savior {
         public byte WarningSoundLevel;
 
         public ushort MaxIDLE;
+
+        [StructField]
+        public Hotkey AllowIdle;
     }
 
     public struct Hotkey {

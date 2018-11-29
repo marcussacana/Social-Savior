@@ -14,6 +14,7 @@ namespace Social_Savior {
         public static bool Execute = false;
         public static bool Startup = false;
         public static bool Restart = false;
+        public static bool Updates = true;
         /// <summary>
         /// Ponto de entrada principal para o aplicativo.
         /// </summary>
@@ -22,11 +23,17 @@ namespace Social_Savior {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (Args?.Length > 0 && Args[0].Trim(' ', '/', '-', '\\').ToLower().Contains("startup"))
-                Startup = true;
+            if (Args?.Length > 0) {
+                string CMD = Args[0].Trim(' ', '/', '-', '\\', ';').ToLower();
+                if (CMD.Contains("startup"))
+                    Startup = true;
 
-            if (Args?.Length > 0 && Args[0].Trim(' ', '/', '-', '\\').ToLower().Contains("restart"))
-                Restart = true;
+                if (CMD.Contains("restart"))
+                    Restart = true;
+
+                if (CMD.Contains("noupdate") || CMD.Contains("noup"))
+                    Updates = false;
+            }
 
             if (!IsElevated && !Debugger.IsAttached && !Restart) {
                 Process.Start(new ProcessStartInfo() {
@@ -41,7 +48,8 @@ namespace Social_Savior {
                 Thread.Sleep(1000);
 
             if (!Startup) {
-                Application.Run(new Update());
+                if (Updates)
+                    Application.Run(new Update());
                 if (!Debugger.IsAttached)
                     Application.Run(new Welcome());
             }
