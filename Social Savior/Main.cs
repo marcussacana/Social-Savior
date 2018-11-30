@@ -311,6 +311,9 @@ namespace Social_Savior {
                 lblPanicTest.Text = "IDLE\nPaused";
                 lblPanicTest.BackColor = Color.Yellow;
             }
+            UnchangedSeconds = 0;
+            ChangedSeconds = 0;
+            Suspended = false;
             IDLEWatcher.Enabled = false;
             IDLESuspension.Enabled = true;
         }
