@@ -47,6 +47,10 @@ namespace Social_Savior {
             if (Restart)
                 Thread.Sleep(1000);
 
+            if (Startup && !File.Exists(Social_Savior.Main.SettingsPath))
+                return;
+            
+
             if (!Startup) {
                 if (Updates)
                     Application.Run(new Update());

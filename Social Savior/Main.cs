@@ -18,7 +18,7 @@ namespace Social_Savior {
 
         const string Signature = "SSAV";
         const uint SignatureValue = 0x56415353;
-        const ushort SettingsVersion = 2;
+        const ushort SettingsVersion = 3;
 
         public bool Initialized = false;
         public bool FirstLaunch = false;
@@ -32,7 +32,7 @@ namespace Social_Savior {
         bool LevelSetup = false;
         byte NewLevel = 0;
 
-        string SettingsPath = AppDomain.CurrentDomain.BaseDirectory + "Savior.dat";
+        public static string SettingsPath = AppDomain.CurrentDomain.BaseDirectory + "Savior.dat";
         public Main() {
             if (File.Exists(SettingsPath)) {
                 try {
@@ -64,6 +64,15 @@ namespace Social_Savior {
                     BadSettings();
                 }
             }
+
+            if (Settings.AllowedUser == string.Empty || Settings.AllowedUser == null) {
+                var Reply = MessageBox.Show("Allow the Social-Savior works only with the current user of this computer?", "Social Savior", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (Reply == DialogResult.Yes)
+                    Settings.AllowedUser = Environment.UserName;
+                else
+                    Settings.AllowedUser = "ALLOWEVERYONE";
+            } else if (Settings.AllowedUser != Environment.UserName && Settings.AllowedUser != "ALLOWEVERYONE")
+                Environment.Exit(0);
 
             InitializeComponent();
 
@@ -879,6 +888,9 @@ namespace Social_Savior {
 
         [StructField]
         public Hotkey AllowIdle;
+
+        [CString()]
+        public string AllowedUser;
     }
 
     public struct Hotkey {
