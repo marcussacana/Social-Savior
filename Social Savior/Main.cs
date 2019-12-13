@@ -155,7 +155,9 @@ namespace Social_Savior {
                 HomeMainGB.Text = "Social Savior has not been configured";
 
             InitializeMicrophone();
-            ProcessScanTick(null, null);            
+            ProcessScanTick(null, null);
+
+            WineDeprecated();
 
             StartWithWindowsCK.Checked = StartupStatus();
 
@@ -166,15 +168,28 @@ namespace Social_Savior {
             Initialized = true;
         }
 
+        private void WineDeprecated()
+        {
+            if (Program.IsRealWindows)
+                return;
+
+            InvokeScreenSaverCK.Enabled = false;
+            InvokeScreenSaverCK.Checked = false;
+            StartWithWindowsCK.Enabled = false;
+            Microphone = null;
+        }
+
         private void InitializeMicrophone() {
-            MMDeviceCollection Devices = GetMicrophoneDevices();
-            var DevicesName = (from x in Devices select x.DeviceFriendlyName).ToArray();
-            MicroList.Items.AddRange(DevicesName);
+            if (Program.IsRealWindows) {
+                MMDeviceCollection Devices = GetMicrophoneDevices();
+                var DevicesName = (from x in Devices select x.DeviceFriendlyName).ToArray();
+                MicroList.Items.AddRange(DevicesName);
 
-            if (!string.IsNullOrEmpty(Settings.RecoderDevice) && DevicesName.Contains(Settings.RecoderDevice)) {
-                MicroList.SelectedItem = Settings.RecoderDevice;
+                if (!string.IsNullOrEmpty(Settings.RecoderDevice) && DevicesName.Contains(Settings.RecoderDevice))
+                {
+                    MicroList.SelectedItem = Settings.RecoderDevice;
+                }
             }
-
             MicroList.Items.Add("Disabled");
         }
 
@@ -195,7 +210,7 @@ namespace Social_Savior {
         static bool InPanic = false;
         static bool PanicRunning = false;
         static bool RestoreRunning = false;
-        private void PanicHotkeyPressed(object sender, KeyPressedEventArgs e) {
+        internal void PanicHotkeyPressed(object sender, KeyPressedEventArgs e) {
             if (PanicRunning)
                 return;
             InPanic = true;
@@ -205,6 +220,7 @@ namespace Social_Savior {
                     lblPanicTest.Text = "Panic!";
                     lblPanicTest.BackColor = Color.Red;
                 } else {
+                    Program.Log("EVENT: Panic Triggered");
 
                     //Real Panic - LET'S HIDE THIS SHIT
                     Process[] Targets = GetExecutingBlackList();
@@ -274,7 +290,7 @@ namespace Social_Savior {
             }
             PanicRunning = false;
         }
-        private void RestoreHotkeyPressed(object sender, KeyPressedEventArgs e) {
+        internal void RestoreHotkeyPressed(object sender, KeyPressedEventArgs e) {
             if (RestoreRunning)
                 return;
             InPanic = false;
@@ -284,6 +300,8 @@ namespace Social_Savior {
                     lblPanicTest.Text = "Not in Panic";
                     lblPanicTest.BackColor = Color.Lime;
                 } else {
+                    Program.Log("EVENT: Panic Restation Triggered");
+
                     //Real Restore
                     Process[] Targets = GetExecutingBlackList();
 
@@ -511,6 +529,10 @@ namespace Social_Savior {
                 FirstLaunch = false;
 
                 MessageBox.Show("Well... If you just click the 'x', Social Savior will be hidden. If you want to unhide it, just open Social Savior again and type the secret key.\nIf you want to actually close Social Savior, click the 'Close Social Savior' button in the main window or kill the process.\nI hope this can save your life.\n\nSocial Savior, Created by Marcussacana.", "Welcome to Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (!Program.IsRealWindows)
+                    MessageBox.Show("Looks like you're running the Social Savior under Wine, So pay attention to a few things:\n1 - The Social Savior Don't will works if your current focused window isn't a wine program.\n2 - You can launch the Social Savior with the argument '/panic' or '/restore', this mean you can create a native hotkey shortcut to run the Social Savior with those arguments.\n3 - Microphone Trigger don't works.\n4 - Computer Locker/Screensaver don't work too.\n5 - We don't recommend you use native hotkey to the /panic argument, because can have a big delay to the panic trigger.\n\nIf you feel anything strange, try create a issue in our github.", "Social Savior", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                
             }
 
             e.Cancel = true;
@@ -680,6 +702,12 @@ namespace Social_Savior {
         }
 
         private bool SelectMicrophone() {
+            if (!Program.IsRealWindows) {
+                MicroWatcher.Enabled = false;
+                Microphone = null;
+                return false;
+            }
+
             var Devices = (from x in GetMicrophoneDevices()
                            where x.DeviceFriendlyName == Settings.RecoderDevice
                            select x).ToArray();
@@ -723,7 +751,9 @@ namespace Social_Savior {
                 if (!Async.Wait(Timeout)) {
                     try {
                         Timeouted?.Invoke();
-                    } catch { }
+                    } catch (Exception ex) {
+                        Program.Log("SafeInvoker Exception:\n" + ex.ToString());
+                    }
                 }
             }
         }

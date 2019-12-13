@@ -55,7 +55,7 @@ namespace Social_Savior {
             IntPtr Handler;
             if ((Handler = Process.MainWindowHandle) != IntPtr.Zero) {
                 HandlerMap[Process.Id].Add(Handler);
-                ShowWindow(Process.MainWindowHandle, SW_HIDE);
+                ShowWindow(Handler, SW_HIDE);
             }
         }
         public static void ShowWindow(this Process Process) {
