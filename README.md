@@ -68,10 +68,11 @@ Build: [Download](https://ci.appveyor.com/api/projects/marcussacana/social-savio
 
 
 ### Social Savior in Action (Video)
-[![Click To Play](https://a.doko.moe/hcadch.png)](https://www.youtube.com/watch?v=QqrJ5VRHMSk "Click to Play")
+[![Click To Play](https://user-images.githubusercontent.com/10576957/77265278-135f2080-6c7b-11ea-89dc-5f23e2d28516.png)](https://www.youtube.com/watch?v=QqrJ5VRHMSk "Click to Play")
 
 ### Social Savior in Action (Microphone Test)
-![Main Social Savior Window](https://a.doko.moe/criwis.gif)
+![Main Social Savior Window](https://user-images.githubusercontent.com/10576957/77265221-ee6aad80-6c7a-11ea-8d1a-f22235a0b66e.gif)
+
 
 -----------
 - Why did I create this? Well... I think it's obvious... Do I really need to say it?
@@ -79,4 +80,5 @@ Build: [Download](https://ci.appveyor.com/api/projects/marcussacana/social-savio
 - To make sure your family doesn't get disappointed with you!
 - ... Sure...
 
-![https://a.doko.moe/poxjic.png](https://a.doko.moe/poxjic.png)
+![image](https://user-images.githubusercontent.com/10576957/77265184-d6932980-6c7a-11ea-8903-e0d011626b46.png)
+
