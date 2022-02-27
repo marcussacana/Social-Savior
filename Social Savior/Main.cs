@@ -744,16 +744,22 @@ namespace Social_Savior {
         }
 
         public static object obj = new object();
-        public static void SafeInvoker(Action Action, Action Timeouted = null, int Timeout = 100) {
-            lock (obj) {
-                Task Async = new Task(Action);
-                Async.Start();
-                if (!Async.Wait(Timeout)) {
-                    try {
+        public static void SafeInvoker(Action Action, Action Timeouted = null, int Timeout = 200) {
+            lock (obj)
+            {
+                try
+                {
+                    Task Async = new Task(Action);
+                    Async.Start();
+                    if (!Async.Wait(Timeout))
+                    {
                         Timeouted?.Invoke();
-                    } catch (Exception ex) {
-                        Program.Log("SafeInvoker Exception:\n" + ex.ToString());
                     }
+
+                }
+                catch (Exception ex)
+                {
+                    Program.Log("SafeInvoker Exception:\n" + ex.ToString());
                 }
             }
         }
